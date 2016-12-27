@@ -106,7 +106,7 @@ namespace Emse.Updater
             DownloadingVersionZipProgress = new Tuple<DateTime, long, long>(DateTime.MinValue, 0, 0);
         }
 
-        private async void Updater()
+        private void Updater()
         {
             string tempForFilesWithRandom = null, tempPathForZipWithRandom = null, tempPath = null, realPath = null;
             SettingDto setting = new SettingDto();
@@ -224,11 +224,12 @@ namespace Emse.Updater
                         LogHelper.WriteLog(latestversionURL + " has been downloaded.");
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
                         LogHelper.WriteLog("File has been unzipped");
+                        Helper.ProcessHelper.CloseProcess();
+                        Thread.Sleep(1000);
                         Helper.ProcessHelper.KillProcess();
                         LogHelper.WriteLog(setting.ExeName + " Process killed.");
                         Thread.Sleep(3000);
-                        Helper.PathHelper.Empty(new DirectoryInfo(realPath),
-                            new List<DirectoryInfo>() { new DirectoryInfo(tempPath) });
+                        Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) });
                         LogHelper.WriteLog("Moving files from temp path to " + realPath);
 
                         Helper.PathHelper.CopyDir(tempForFilesWithRandom, realPath);
@@ -242,8 +243,7 @@ namespace Emse.Updater
                             Directory.Delete(tempPath, true);
                             LogHelper.WriteLog(tempPath + " has been deleted.");
                         }
-
-
+                        
                         Program = Process.Start(realPath + "\\" + setting.ExeName + ".exe");
                         LogHelper.WriteLog("Starting Process " + setting.ExeName);
 

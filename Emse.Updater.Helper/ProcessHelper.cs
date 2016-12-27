@@ -1,17 +1,41 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace Emse.Updater.Helper
 {
     public class ProcessHelper
     {
-        // DRY = Dont Repeat Yourself
+        public static void CloseProcess()
+        {
+            DTO.SettingDto setting = Emse.Updater.Helper.JsonHelper.JsonReader();
+            Process[] processOfEmse = Process.GetProcessesByName(setting.ExeName);
+            foreach (Process process in processOfEmse)
+            {
+                try
+                {
+                    process.CloseMainWindow();
+                }
+                catch (Exception ex)
+                {
+                    // ignored
+                }
+            }
+        }
+
         public static void KillProcess()
         {
             DTO.SettingDto setting = Emse.Updater.Helper.JsonHelper.JsonReader();
             Process[] processOfEmse = Process.GetProcessesByName(setting.ExeName);
             foreach (Process process in processOfEmse)
             {
-                process.CloseMainWindow();
+                try
+                {
+                    process.Kill();
+                }
+                catch (Exception ex)
+                {
+                    // ignored
+                }
             }
         }
 

@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dxnav="http://schemas.devexpress.com/winfx/2008/xaml/navigation" x:Class="Emse.Updater.MainWindow"
-        Title="Emse Updater" Height="518.196" Width="535" Icon="EmseUpdaterIco.ico" WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
+        Title="Emse Updater - BEATER" Height="518.196" Width="535" Icon="EmseUpdaterIco.ico" WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
 
     <Grid HorizontalAlignment="Left" Margin="10,10,0,6" Width="549">
         <Label x:Name="LabelSecondsBetweenLoop" Content="Seconds Between Loop:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="6,15,0,0"/>
