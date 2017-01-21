@@ -4,7 +4,6 @@ using System.Net;
 using System.Text;
 using Emse.Updater.DTO;
 
-
 namespace Emse.Updater.Helper
 {
     public class VersionHelper

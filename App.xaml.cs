@@ -7,8 +7,6 @@ using System.Net;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using System.IO.Compression;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Emse.Updater.DTO;
@@ -17,9 +15,9 @@ using Emse.Updater.Helper;
 
 namespace Emse.Updater
 {
-    public partial class App : Application
+    public partial class App
     {
-        public static bool DownloadingVersionZip = false;
+        public static bool DownloadingVersionZip;
         public static Tuple<DateTime, long, long> DownloadingVersionZipProgress = new Tuple<DateTime, long, long>(DateTime.MinValue, 0,0); 
         private static readonly WebClient Wc = new WebClient();
         public static Process Program { get; set; }
@@ -106,9 +104,43 @@ namespace Emse.Updater
             DownloadingVersionZipProgress = new Tuple<DateTime, long, long>(DateTime.MinValue, 0, 0);
         }
 
+        private Process StartProcess(string path)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startinfo = new System.Diagnostics.ProcessStartInfo
+            {
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                FileName = path,
+                ErrorDialog = false,
+                RedirectStandardError = true,
+                UseShellExecute = false
+            };
+
+            process.StartInfo = startinfo;
+            process.Start();
+
+            return process;
+        }
+
+        private void KillWerFaultProcesses()
+        {
+            Process[] werFaultProcessList = Process.GetProcessesByName("WerFault");
+            foreach (Process werFaultProcess in werFaultProcessList)
+            {
+                try
+                {
+                    werFaultProcess.Kill();
+                    LogHelper.WriteLog("WerFault killed.");
+                }
+                catch (Exception ex)
+                {
+                    Emse.Updater.Helper.LogHelper.WriteLog("KillWerFaultProcesses: " + ex.Message);
+                }
+            }
+        }
+
         private void Updater()
         {
-            string tempForFilesWithRandom = null, tempPathForZipWithRandom = null, tempPath = null, realPath = null;
             SettingDto setting = new SettingDto();
 
             try
@@ -123,6 +155,8 @@ namespace Emse.Updater
 
             while (true)
             {
+                KillWerFaultProcesses();
+
                 try
                 {
                     if (!UpdateStatus)
@@ -132,18 +166,29 @@ namespace Emse.Updater
                         continue;
                     }
 
-                    realPath = Helper.PathHelper.GetRealPath();
+                    string realPath = Helper.PathHelper.GetRealPath();
 
                     setting = Helper.JsonHelper.JsonReader();
                     LogHelper.WriteLog("JSON file has been read");
 
                     Process[] processOfEmse = Process.GetProcessesByName(setting.ExeName);
+                    if (processOfEmse.Length != 0)
+                    {
+                        Process mainProcess = processOfEmse[0];
+
+                        if (!mainProcess.Responding)
+                        {
+                            LogHelper.WriteLog(setting.ExeName + " not responding.");
+                            Helper.ProcessHelper.KillProcess();
+                            LogHelper.WriteLog(setting.ExeName + " Process killed.");
+                        }
+                    }
 
                     if (processOfEmse.Length == 0)
                     {
                         if (File.Exists(realPath + "\\" + setting.ExeName + ".exe"))
                         {
-                            Process.Start(realPath + "\\" + setting.ExeName + ".exe");
+                            Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
                         }
                     }
 
@@ -161,9 +206,9 @@ namespace Emse.Updater
                     if (latestVersion != new Version(setting.CurrentVersion)) //yeni sürüm var
                     {
                         Guid randomGuid = Guid.NewGuid();
-                        tempPath = Helper.PathHelper.GetTempPath();
-                        tempForFilesWithRandom = tempPath + "\\" + randomGuid;
-                        tempPathForZipWithRandom = tempPath + "\\" + randomGuid + "." + setting.FileExtension;
+                        string tempPath = Helper.PathHelper.GetTempPath();
+                        string tempForFilesWithRandom = tempPath + "\\" + randomGuid;
+                        string tempPathForZipWithRandom = tempPath + "\\" + randomGuid + "." + setting.FileExtension;
 
                         if (Directory.Exists(tempPath))
                         {
@@ -229,6 +274,7 @@ namespace Emse.Updater
                         Helper.ProcessHelper.KillProcess();
                         LogHelper.WriteLog(setting.ExeName + " Process killed.");
                         Thread.Sleep(3000);
+                        System.IO.Directory.CreateDirectory(realPath);
                         Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) });
                         LogHelper.WriteLog("Moving files from temp path to " + realPath);
 
@@ -243,8 +289,8 @@ namespace Emse.Updater
                             Directory.Delete(tempPath, true);
                             LogHelper.WriteLog(tempPath + " has been deleted.");
                         }
-                        
-                        Program = Process.Start(realPath + "\\" + setting.ExeName + ".exe");
+
+                        Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
                         LogHelper.WriteLog("Starting Process " + setting.ExeName);
 
                     }
@@ -273,11 +319,6 @@ namespace Emse.Updater
             }
 
             Thread.Sleep(secondBetweenLoops * 1000);
-        }
-
-        private void WcOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs downloadProgressChangedEventArgs)
-        {
-            Helper.LogHelper.WriteLog("Bytes: " + downloadProgressChangedEventArgs.BytesReceived + " of " + downloadProgressChangedEventArgs.TotalBytesToReceive);
         }
 
         public static void MainWindowThreadReadLog()

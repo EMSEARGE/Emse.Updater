@@ -56,7 +56,9 @@ namespace Emse.Updater.Helper
         public static void CopyDir(string sourceFolder, string destFolder)
         {
             if (!Directory.Exists(destFolder))
+            {
                 Directory.CreateDirectory(destFolder);
+            }
 
             // Get Files & Copy
             string[] files = Directory.GetFiles(sourceFolder);
