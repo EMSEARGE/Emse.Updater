@@ -1,0 +1,13 @@
+﻿{
+  "SecondsBetweenLoop": 10,
+  "CurrentVersion": "0.0.0.0",
+  "Domain": "http://192.168.1.67:8080/version.txt",
+  "UrlZip": "http://192.168.1.67:8080/{version}",
+  "FileExtension": "zip",
+  "Path": "{Desktop}\\HS",
+  "TempPath": "{Desktop}\\HS-Temp",
+  "TempPathFile": null,
+  "ExeName": "EmseQ.Hardware.Service",
+  "AppName": null,
+  "UpdateStatus": true
+}

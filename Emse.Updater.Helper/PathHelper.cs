@@ -80,5 +80,15 @@ namespace Emse.Updater.Helper
                 CopyDir(folder, dest);
             }
         }
+
+        public static string CurrentDirectory()
+        {
+            return System.AppDomain.CurrentDomain.BaseDirectory;
+        }
+
+        public static string CurrentExeLocation()
+        {
+            return System.Reflection.Assembly.GetEntryAssembly().GetName().Name + ".exe";
+        }
     }
 }
