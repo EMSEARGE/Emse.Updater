@@ -18,6 +18,7 @@ namespace Emse.Updater.Windows.Service
         private static readonly WebClient Wc = new WebClient();
         public static Process Program { get; set; }
         public static bool UpdateStatus = true;
+        public static string AppDir;
         public static void Execute()
         {
             //Console.WriteLine("while (true): " + DateTime.Now.ToString("hh:mm:ss"));
@@ -144,7 +145,9 @@ namespace Emse.Updater.Windows.Service
                     {
                         if (File.Exists(realPath + "\\" + setting.ExeName + ".exe"))
                         {
-                            Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
+                            //Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
+                            AppDir = realPath + "\\" + setting.ExeName + ".exe";
+                            ProcessExtensions.StartProcessAsCurrentUser(AppDir);
                         }
                     }
 
@@ -246,8 +249,8 @@ namespace Emse.Updater.Windows.Service
                             LogHelper.WriteLog(tempPath + " has been deleted.");
                         }
 
-                        Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
-                        LogHelper.WriteLog("Starting Process " + setting.ExeName);
+                        AppDir = realPath + "\\" + setting.ExeName + ".exe";
+                        ProcessExtensions.StartProcessAsCurrentUser(AppDir);
 
                     }
                 }
