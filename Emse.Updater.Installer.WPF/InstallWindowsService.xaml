@@ -1,0 +1,14 @@
+﻿<Page x:Class="Emse.Updater.Installer.WPF.InstallWindowsService"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:p="clr-namespace:Emse.Updater.Installer.WPF.Properties"
+      mc:Ignorable="d" 
+      d:DesignHeight="470" d:DesignWidth="550"
+      Title="Emse Updater">
+    <Grid HorizontalAlignment="Left" Width="550">
+        <Label x:Name="LabelWindowsServiceInstaller" FontSize="40" Content="Windows Service Installer" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="123" Width="476"/>
+
+    </Grid>
+</Page>
