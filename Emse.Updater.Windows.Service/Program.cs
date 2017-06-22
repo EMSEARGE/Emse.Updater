@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.ServiceProcess;
@@ -16,24 +17,31 @@ namespace Emse.Updater.Windows.Service
             else
             {
                 Program.Start(args);
+                new Program().OnStop();
             }
         }
         private static void Start(string[] args)
         {
-            
+            Helper.LogHelper.WriteLog("Service Started!");
             Task.Factory.StartNew(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                Engine.Execute();
+                Program.Go();
             });
-            Console.ReadLine();
-            Console.ReadKey(true);
             new Program().OnStop();
+        }
+
+        protected static void Go()
+        {
+            Helper.LogHelper.WriteLog("Go!");
+            Engine.Execute();
         }
         protected override void OnStart(string[] args)
         {
             //if windows service
-            Program.Main(args);
+            System.Diagnostics.Debugger.Launch();
+            Helper.LogHelper.WriteLog("Service on start");
+            Program.Start(args);
             base.OnStart(args);
         }
         protected override void OnStop()
