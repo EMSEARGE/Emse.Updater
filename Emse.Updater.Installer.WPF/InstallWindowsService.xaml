@@ -7,8 +7,21 @@
       mc:Ignorable="d" 
       d:DesignHeight="470" d:DesignWidth="550"
       Title="Emse Updater">
-    <Grid HorizontalAlignment="Left" Width="550">
-        <Label x:Name="LabelWindowsServiceInstaller" FontSize="40" Content="Windows Service Installer" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="123" Width="476"/>
-
+    <Grid>
+        <Grid  x:Name="GridWindowsInstallerWellcome" Visibility="Hidden">
+            <Grid HorizontalAlignment="Left" Width="550">
+                <Label x:Name="LabelWindowsServiceInstaller" FontSize="40" Content="Windows Service Installer" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="65" Width="476"/>
+                <Label x:Name="LabelWindowsServiceInstallerInfo" FontSize="20" Content="Application will be downloaded and installed automatically. &#xA;Please start the install progress." HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" Height="65" Width="540"/>
+                <Button x:Name="BtnStart" Content="INSTALL" FontSize="20" HorizontalAlignment="Left" Margin="10,396,0,0" VerticalAlignment="Top" Width="180" Height="64" Click="BtnStart_Click"/>
+            </Grid>
+        </Grid>
+        <Grid x:Name="GridInstallProgress" Visibility="Hidden">
+            <Label x:Name="LabelCurrentStatus" Content="Status:" FontSize="20" HorizontalAlignment="Left" Margin="25,60,0,0" VerticalAlignment="Top" Height="40" Width="97"/>
+            <Label x:Name="LabelCurrentStatusContent" Content="" FontSize="20" HorizontalAlignment="Left" Margin="140,60,0,0" VerticalAlignment="Top" Height="40" Width="265"/>
+            
+            <!--<Label x:Name="LabelCurrentStatus_Copy" Content="2:" FontSize="20" HorizontalAlignment="Left" Margin="25,105,0,0" VerticalAlignment="Top" Height="40" Width="97"/>-->
+            <!--<Label x:Name="LabelCurrentStatus_Copy2" Content="2:" FontSize="20" HorizontalAlignment="Left" Margin="140,105,0,0" VerticalAlignment="Top" Height="40" Width="265"/>-->
+        </Grid>
     </Grid>
+
 </Page>
