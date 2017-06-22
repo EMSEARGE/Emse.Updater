@@ -39,7 +39,6 @@ namespace Emse.Updater.Windows.Service
         protected override void OnStart(string[] args)
         {
             //if windows service
-            System.Diagnostics.Debugger.Launch();
             Helper.LogHelper.WriteLog("Service on start");
             Program.Start(args);
             base.OnStart(args);

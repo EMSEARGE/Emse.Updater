@@ -4,10 +4,10 @@
   "Domain": "http://192.168.1.67:8080/version.txt",
   "UrlZip": "http://192.168.1.67:8080/{version}",
   "FileExtension": "zip",
-  "Path": "{Desktop}\\HS",
-  "TempPath": "{Desktop}\\HS-Temp",
+  "Path": "C:\\Emse\\HS",
+  "TempPath": "C:\\Emse\\HS-Temp",
   "TempPathFile": null,
-  "ExeName": "EmseQ.Hardware.Service",
+  "ExeName": "EmseApp",
   "AppName": null,
   "UpdateStatus": true
 }
