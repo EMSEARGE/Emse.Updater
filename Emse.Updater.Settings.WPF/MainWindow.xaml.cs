@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Emse.Updater.DTO;
 using Emse.Updater.Helper;
 
@@ -24,11 +15,68 @@ namespace Emse.Updater.Settings.WPF
     public partial class MainWindow : Window
     {
         public static MainWindow Main { get; set; }
+        public static bool ServiceInstalled { get; set; }
+        public static ServiceController sc = new ServiceController("EmseUpdater");
+
         public MainWindow()
         {
+            
             InitializeComponent();
             Main = this;
             FillFields();
+            Task.Factory.StartNew(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                CheckWindowsService();
+            });
+            
+        }
+
+        private void CheckWindowsService()
+        {
+            while (true)
+            {
+                sc = new ServiceController("EmseUpdater");
+                ServiceInstalled = Helper.WindowsServiceHelper.IsServiceInstalled("EmseUpdater");
+                if (ServiceInstalled)
+                {
+                    switch (sc.Status)
+                    {
+                        case ServiceControllerStatus.Running:
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                LabelServiceStatusContent.Content = "Runnig";
+                                ButtonServiceNetStop.Visibility = Visibility.Visible;
+                                ButtonServiceNetStart.Visibility = Visibility.Hidden;
+                            }));
+                            break;
+                        case ServiceControllerStatus.Stopped:
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                LabelServiceStatusContent.Content = "Stopped";
+                                ButtonServiceNetStart.Visibility = Visibility.Visible;
+                                ButtonServiceNetStop.Visibility = Visibility.Hidden;
+                            }));
+                            break;
+                        case ServiceControllerStatus.Paused:
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                LabelServiceStatusContent.Content = "Paused";
+                            }));
+                            break;
+                    }
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        LabelServiceStatusContent.Content = "Service Not Found!";
+                        ButtonServiceNetStop.Visibility = Visibility.Hidden;
+                        ButtonServiceNetStart.Visibility = Visibility.Hidden;
+                    }));
+                }
+                Thread.Sleep(500);
+            }
         }
 
         public void FillFields()
@@ -88,6 +136,27 @@ namespace Emse.Updater.Settings.WPF
             {
                 Emse.Updater.Helper.LogHelper.WriteLog(ex.Message);
             }
+        }
+
+        private void ButtonStartService_Click(object sender, RoutedEventArgs e)
+        {
+            if (sc.Status == ServiceControllerStatus.Stopped)
+            {
+                sc.Start();
+            }
+        }
+        private void ButtonStopService_Click(object sender, RoutedEventArgs e)
+        {
+            if (sc.Status == ServiceControllerStatus.Running)
+            {
+                sc.Stop();
+            }
+        }
+
+        public static bool IsServiceInstalled(string serviceName)
+        {
+            ServiceController[] services = ServiceController.GetServices();
+            return services.Any(service => service.ServiceName == serviceName);
         }
     }
 }
