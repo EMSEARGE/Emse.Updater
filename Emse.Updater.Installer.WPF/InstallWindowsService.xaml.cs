@@ -14,6 +14,8 @@ namespace Emse.Updater.Installer.WPF
 {
     public partial class InstallWindowsService : Page
     {
+        public static string GlobalUrl = "http://192.168.1.1:8080";
+        public static string Url;
         public static bool DownloadingVersionZip;
         public static Tuple<DateTime, long, long> DownloadingVersionZipProgress = new Tuple<DateTime, long, long>(DateTime.MinValue, 0, 0);
         private static readonly WebClient Wc = new WebClient();
@@ -22,12 +24,35 @@ namespace Emse.Updater.Installer.WPF
         {
             InitializeComponent();
             GridWindowsInstallerWellcome.Visibility = Visibility.Visible;
+            RadioButtonGlobal.IsChecked = true;
+            TextBoxCustomUrl.Visibility = Visibility.Hidden;
         }
         private void BtnStart_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            GridWindowsInstallerWellcome.Visibility = Visibility.Hidden;
-            GridInstallProgress.Visibility = Visibility.Visible;
-            InstallWebService();
+            if (RadioButtonLocal.IsChecked == true)
+            {
+                Uri uriResult;
+                bool result = Uri.TryCreate(TextBoxCustomUrl.Text, UriKind.Absolute, out uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                if (result)
+                {
+                    GridWindowsInstallerWellcome.Visibility = Visibility.Hidden;
+                    GridInstallProgress.Visibility = Visibility.Visible;
+                    Url = TextBoxCustomUrl.Text;
+                    InstallWebService();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid URL");
+                }
+            }
+            if (RadioButtonGlobal.IsChecked == true)
+            {
+                GridWindowsInstallerWellcome.Visibility = Visibility.Hidden;
+                GridInstallProgress.Visibility = Visibility.Visible;
+                Url = GlobalUrl;
+                InstallWebService();
+            }
         }
         private void InstallWebService()
         {
@@ -46,8 +71,8 @@ namespace Emse.Updater.Installer.WPF
             while (true)
             {
                 Guid randomGuid = Guid.NewGuid();
-                string realPath = Helper.PathHelper.GetRealPath();
-                string tempPath = Helper.PathHelper.GetTempPath();
+                string realPath = "C:\\Emse.Updater";
+                string tempPath = "C:\\Temp.Emse.Updater";
                 string tempForFilesWithRandom = tempPath + "\\" + randomGuid;
                 string tempPathForZipWithRandom = tempPath + "\\" + randomGuid + "." + "zip";
 
@@ -62,8 +87,6 @@ namespace Emse.Updater.Installer.WPF
                         StatusInfoInvoker(ex.Message);
                     }
                 }
-                Version latestVersion = Helper.VersionHelper.GetLatestVersion();
-                string latestversionURL = Helper.VersionHelper.GetVersionZipURL(latestVersion);
                 
                 Directory.CreateDirectory(tempPath);
                 StatusInfoInvoker("Temp folder has been created. " + tempPath);
@@ -71,10 +94,8 @@ namespace Emse.Updater.Installer.WPF
                 Directory.CreateDirectory(tempForFilesWithRandom);
                 StatusInfoInvoker("Temp with random folder has been created.");
                 Thread.Sleep(2000);
-                StatusInfoInvoker(" Downloading Emse Updater from url: " + latestversionURL);
-                Thread.Sleep(2000);
                 bool downloadFail = false;
-                DownloadVersionZip(latestversionURL, tempPathForZipWithRandom);
+                DownloadVersionZip( Url + "/Emse.Updater.zip", tempPathForZipWithRandom);
 
                 while (true)
                 {
@@ -123,12 +144,12 @@ namespace Emse.Updater.Installer.WPF
                 }));
 
                 System.IO.Directory.CreateDirectory(realPath);
-                Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) });
+                Handler.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) });
 
                 StatusInfoInvoker("Moving files from temp path to " + realPath);
                 
                 Thread.Sleep(2000);
-                Helper.PathHelper.CopyDir(tempForFilesWithRandom, realPath);
+                Handler.PathHelper.CopyDir(tempForFilesWithRandom, realPath);
 
                 StatusInfoInvoker("Copied to " + realPath);
 
@@ -157,7 +178,7 @@ namespace Emse.Updater.Installer.WPF
             StatusInfoInvoker("Checking OS and services.msc");
             Thread.Sleep(1500);
 #if !DEBUG
-                    bool windowsRegistry = Helper.WindowsServiceHelper.RegisterWindowsService("EmseUpdater");
+                    bool windowsRegistry = Handler.WindowsServiceHelper.RegisterWindowsService("EmseUpdater");
                     if (windowsRegistry)
                     {
                         StatusInfoInvoker("Emse Updater has been added to Services ");
@@ -167,7 +188,6 @@ namespace Emse.Updater.Installer.WPF
                         StatusInfoInvoker("Emse Updater is already installed");
                     }
 #endif
-
             StatusInfoInvoker("Done!");
             Thread.Sleep(2000);
             OpenUpdaterSettings();
@@ -179,7 +199,7 @@ namespace Emse.Updater.Installer.WPF
             {
                 LabelCurrentStatusContent.Content = "Running Emse Updater Settings";
             }));
-            Program = StartProcess(Helper.JsonHelper.JsonReader().Path + "\\" + Helper.JsonHelper.JsonReader().AppName + ".exe");
+            Program = StartProcess("C:\\Emse.Updater\\Emse.Updater.Settings.WPF.exe");
             Thread.Sleep(5000);
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
@@ -235,6 +255,14 @@ namespace Emse.Updater.Installer.WPF
             process.Start();
 
             return process;
+        }
+        private void RadioButtonLocal_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBoxCustomUrl.Visibility = Visibility.Visible;
+        }
+        private void RadioButtonGlobal_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBoxCustomUrl.Visibility = Visibility.Hidden;
         }
     }
 }

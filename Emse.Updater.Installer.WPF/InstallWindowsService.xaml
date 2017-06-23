@@ -5,14 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:p="clr-namespace:Emse.Updater.Installer.WPF.Properties"
       mc:Ignorable="d" 
-      d:DesignHeight="470" d:DesignWidth="550"
+      d:DesignHeight="370" d:DesignWidth="550"
       Title="Emse Updater">
     <Grid>
-        <Grid  x:Name="GridWindowsInstallerWellcome" Visibility="Hidden">
+        <Grid  x:Name="GridWindowsInstallerWellcome" Visibility="Visible">
             <Grid HorizontalAlignment="Left" Width="550">
-                <Label x:Name="LabelWindowsServiceInstaller" FontSize="40" Content="Windows Service Installer" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="65" Width="476"/>
-                <Label x:Name="LabelWindowsServiceInstallerInfo" FontSize="20" Content="Application will be downloaded and installed automatically. &#xA;Please start the install progress." HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" Height="65" Width="540"/>
-                <Button x:Name="BtnStart" Content="INSTALL" FontSize="20" HorizontalAlignment="Left" Margin="10,396,0,0" VerticalAlignment="Top" Width="180" Height="64" Click="BtnStart_Click"/>
+                <Label x:Name="LabelWindowsServiceInstaller" FontSize="36" Content="Windows Service Installer" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="5,10,0,0" VerticalAlignment="Top" Height="65" Width="535"/>
+                <Label x:Name="LabelWindowsServiceInstallerInfo" FontSize="18" Content="Application will be downloaded and installed automatically. &#xA;Please start the install progress." HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Height="65" Width="530"/>
+                <Button x:Name="BtnStart" Content="INSTALL" FontSize="20" HorizontalAlignment="Left" Margin="37,267,0,0" VerticalAlignment="Top" Width="466" Height="57" Click="BtnStart_Click"/>
+                <RadioButton x:Name="RadioButtonGlobal" Content="Global Install" FontSize="20" HorizontalAlignment="Left" Margin="37,156,0,0" VerticalAlignment="Top" Width="211" Height="28" Checked="RadioButtonGlobal_Checked"/>
+                <RadioButton x:Name="RadioButtonLocal" Content="Custom Install" FontSize="20" HorizontalAlignment="Left" Margin="37,198,0,0" VerticalAlignment="Top" Width="211" Height="28" Checked="RadioButtonLocal_Checked"/>
+                <TextBox x:Name="TextBoxCustomUrl" HorizontalAlignment="Left" Height="37" FontSize="20"  Margin="253,189,0,0" TextWrapping="Wrap" Text="http://192.168.1.1:8080" VerticalAlignment="Top" Width="250"/>
             </Grid>
         </Grid>
         <Grid x:Name="GridInstallProgress" Visibility="Hidden">

@@ -13,8 +13,8 @@
             <Label x:Name="LabelSecondsBetweenLoop" Content="Seconds Between Loop:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="198" Height="26" FontSize="14" FontWeight="Bold"  Margin="6,15,0,0"/>
             <Label x:Name="LabelCurrentVersion" Content="Current Version: " HorizontalAlignment="Left" Margin="268,15,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
             <Label x:Name="LabelPath" Content="Path:" HorizontalAlignment="Left" Margin="268,123,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.26,-0.523" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <TextBox x:Name="TextBoxSecondsBetweenLoopText"  HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.08,0.459" Width="200" Height="26" FontSize="14" Text="12" />
-            <TextBox x:Name="TextBoxCurrentVersionText"  HorizontalAlignment="Left" Margin="268,46,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.126,1.081" Width="200" Height="26" FontSize="14" Text="123"/>
+            <TextBox x:Name="TextBoxSecondsBetweenLoopText"  HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.08,0.459" Width="200" Height="26" FontSize="14" />
+            <TextBox x:Name="TextBoxCurrentVersionText"  HorizontalAlignment="Left" Margin="268,46,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.126,1.081" Width="200" Height="26" FontSize="14"/>
             <Label x:Name="LabelDomain" Content="Domain:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
             <Label x:Name="LabelUrlZip" Content="UrlZip:" HorizontalAlignment="Left" Margin="268,72,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
             <Label x:Name="LabelFileExtension" Content="FileExtension:" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" Width="200" Height="25" FontSize="14" FontWeight="Bold" />
@@ -22,7 +22,7 @@
             <Label x:Name="LabelExeName" Content="ExeName:" HorizontalAlignment="Left" Margin="268,174,0,0" VerticalAlignment="Top" Width="200" Height="28" FontSize="14" FontWeight="Bold" />
             <TextBox x:Name="TextBoxDomainText" HorizontalAlignment="Left" Height="25" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"  RenderTransformOrigin="0.492,1.445" FontSize="14" />
             <TextBox x:Name="TextBoxUrlZipText" HorizontalAlignment="Left" Height="25" Margin="268,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <TextBox x:Name="TextBoxFileExtension" HorizontalAlignment="Left" Height="26" Margin="10,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14"  IsReadOnly="True" Text="123"/>
+            <TextBox x:Name="TextBoxFileExtension" HorizontalAlignment="Left" Height="26" Margin="10,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14"  IsReadOnly="True"/>
             <TextBox x:Name="TextBoxPathText" HorizontalAlignment="Left" Height="25" Margin="268,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
             <TextBox x:Name="TextBoxTempPathText" HorizontalAlignment="Left" Height="25" Margin="10,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
             <TextBox x:Name="TextBoxExeNameText" HorizontalAlignment="Left" Height="25" Margin="268,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
