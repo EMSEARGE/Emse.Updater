@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -8,8 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Emse.Updater.Helper;
-using MahApps.Metro.Controls;
 
 namespace Emse.Updater.Installer.WPF
 {
@@ -18,6 +17,7 @@ namespace Emse.Updater.Installer.WPF
         public static bool DownloadingVersionZip;
         public static Tuple<DateTime, long, long> DownloadingVersionZipProgress = new Tuple<DateTime, long, long>(DateTime.MinValue, 0, 0);
         private static readonly WebClient Wc = new WebClient();
+        public static Process Program { get; set; }
         public InstallWindowsService()
         {
             InitializeComponent();
@@ -28,8 +28,6 @@ namespace Emse.Updater.Installer.WPF
             GridWindowsInstallerWellcome.Visibility = Visibility.Hidden;
             GridInstallProgress.Visibility = Visibility.Visible;
             InstallWebService();
-            
-            //Environment.Exit(1);
         }
         private void InstallWebService()
         {
@@ -156,22 +154,38 @@ namespace Emse.Updater.Installer.WPF
                 LabelCurrentStatusContent.Content = "Installing Windows Service";
             }));
 
-            #if !DEBUG
-                    bool windowsRegistry = EmseQ.Helper.WindowsServiceHelper.RegisterWindowsService("EmseQServer");
+            StatusInfoInvoker("Checking OS and services.msc");
+            Thread.Sleep(1500);
+#if !DEBUG
+                    bool windowsRegistry = Helper.WindowsServiceHelper.RegisterWindowsService("EmseUpdater");
                     if (windowsRegistry)
                     {
                         StatusInfoInvoker("Emse Updater has been added to Services ");
                     }
                     else
                     {
-                        Console.WriteLine("Emse Updater is already installed");
+                        StatusInfoInvoker("Emse Updater is already installed");
                     }
-            #endif
+#endif
+
+            StatusInfoInvoker("Done!");
+            Thread.Sleep(2000);
             OpenUpdaterSettings();
         }
         private void OpenUpdaterSettings()
         {
-           //TODO start Emse.Updater.Settings.WPF
+            StatusInfoInvoker("");
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                LabelCurrentStatusContent.Content = "Running Emse Updater Settings";
+            }));
+            Program = StartProcess(Helper.JsonHelper.JsonReader().Path + "\\" + Helper.JsonHelper.JsonReader().AppName + ".exe");
+            Thread.Sleep(5000);
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                LabelCurrentStatusContent.Content = "";
+            }));
+            Environment.Exit(1);
         }
         private void DownloadVersionZip(string latestversionURL, string tempPathForZipWithRandom)
         {
@@ -204,6 +218,23 @@ namespace Emse.Updater.Installer.WPF
             {
                 TextBlockCurrentStatusInfo.Text = log;
             }));
+        }
+        private Process StartProcess(string path)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startinfo = new System.Diagnostics.ProcessStartInfo
+            {
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                FileName = path,
+                ErrorDialog = false,
+                RedirectStandardError = true,
+                UseShellExecute = false
+            };
+
+            process.StartInfo = startinfo;
+            process.Start();
+
+            return process;
         }
     }
 }

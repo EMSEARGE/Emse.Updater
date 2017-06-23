@@ -4,10 +4,10 @@
   "Domain": "http://192.168.1.67:8080/version.txt",
   "UrlZip": "http://192.168.1.67:8080/{version}",
   "FileExtension": "zip",
-  "Path": "C:\\Emse Updater",
-  "TempPath": "{Desktop}\\Emse Updater",
+  "Path": "C:\\EmseUpdater",
+  "TempPath": "{Desktop}\\EmseUpdater",
   "TempPathFile": null,
   "ExeName": "Emse.Updater.Windows.Service",
-  "AppName": null,
+  "AppName": "Emse.Updater.Settings.WPF",
   "UpdateStatus": true
 }

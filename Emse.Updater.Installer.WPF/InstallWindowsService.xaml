@@ -19,7 +19,6 @@
             <Label x:Name="LabelCurrentStatus" Content="Status:" FontSize="20" HorizontalAlignment="Left" Margin="25,60,0,0" VerticalAlignment="Top" Height="40" Width="97"/>
             <Label x:Name="LabelCurrentStatusContent" Content="" FontSize="20" HorizontalAlignment="Left" Margin="140,60,0,0" VerticalAlignment="Top" Height="40" Width="265"/>
             <TextBlock x:Name="TextBlockCurrentStatusInfo" TextWrapping="Wrap"  FontSize="16" HorizontalAlignment="Left" Margin="25,105,0,0" VerticalAlignment="Top" Height="83" Width="482"/>
-            <!--<Label x:Name="LabelCurrentStatus_Copy2" Content="2:" FontSize="20" HorizontalAlignment="Left" Margin="140,105,0,0" VerticalAlignment="Top" Height="40" Width="265"/>-->
         </Grid>
     </Grid>
 
