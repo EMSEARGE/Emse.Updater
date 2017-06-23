@@ -7,7 +7,7 @@
   "Path": "C:\\Emse Updater",
   "TempPath": "{Desktop}\\Emse Updater",
   "TempPathFile": null,
-  "ExeName": "EmseApp",
+  "ExeName": "Emse.Updater.Windows.Service",
   "AppName": null,
   "UpdateStatus": true
 }

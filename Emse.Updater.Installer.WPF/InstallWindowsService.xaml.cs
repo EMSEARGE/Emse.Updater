@@ -151,11 +151,22 @@ namespace Emse.Updater.Installer.WPF
         }
         private void InstallUpdaterWindowsService()
         {
-            //TODO exec cmd line to install service
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 LabelCurrentStatusContent.Content = "Installing Windows Service";
             }));
+
+            #if !DEBUG
+                    bool windowsRegistry = EmseQ.Helper.WindowsServiceHelper.RegisterWindowsService("EmseQServer");
+                    if (windowsRegistry)
+                    {
+                        StatusInfoInvoker("Emse Updater has been added to Services ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Emse Updater is already installed");
+                    }
+            #endif
             OpenUpdaterSettings();
         }
         private void OpenUpdaterSettings()

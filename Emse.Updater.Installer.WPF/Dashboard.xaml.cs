@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Emse.Updater.Helper;
 
 namespace Emse.Updater.Installer.WPF
 {
@@ -21,6 +22,7 @@ namespace Emse.Updater.Installer.WPF
         public Dashboard()
         {
             InitializeComponent();
+            string cmdLine = @"/C C:\Windows\Microsoft.NET\Framework\v4.0.30319\installutil.exe " + PathHelper.GetRealPath() + JsonHelper.JsonReader().ExeName;
         }
 
         private void ButtonConfirm_Click(object sender, RoutedEventArgs e)

@@ -21,7 +21,7 @@ namespace Emse.Updater.Windows.Service
             //# Service Information
             serviceInstaller.DisplayName = "Emse Updater";
             serviceInstaller.StartType = ServiceStartMode.Automatic;
-
+            serviceInstaller.Description = "Emse Update Service";
             // This must be identical to the WindowsService.ServiceBase name
             // set in the constructor of WindowsService.cs
             serviceInstaller.ServiceName = "EmseUpdater";
