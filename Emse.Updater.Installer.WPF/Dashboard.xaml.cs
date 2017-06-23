@@ -25,6 +25,7 @@ namespace Emse.Updater.Installer.WPF
 
         private void ButtonConfirm_Click(object sender, RoutedEventArgs e)
         {
+            //TODO Ask for administrator privileges
             if (RadioButtonWindowsService.IsChecked == true)
             {
                 MainWindow.Main._NavigationFrame.Navigate(new InstallWindowsService());
