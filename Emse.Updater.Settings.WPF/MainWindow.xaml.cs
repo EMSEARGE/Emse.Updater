@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace Emse.Updater.Settings.WPF
 
         public MainWindow()
         {
-            
+            sc = new ServiceController("EmseUpdater");
             InitializeComponent();
             Main = this;
             FillFields();
@@ -29,20 +28,26 @@ namespace Emse.Updater.Settings.WPF
                 Thread.CurrentThread.IsBackground = true;
                 CheckWindowsService();
             });
-            
         }
 
         private void CheckWindowsService()
         {
             while (true)
             {
+                sc.Dispose();
                 sc = new ServiceController("EmseUpdater");
                 ServiceInstalled = Helper.WindowsServiceHelper.IsServiceInstalled("EmseUpdater");
                 if (ServiceInstalled)
                 {
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        ButtonUnRegisterService.Visibility = Visibility.Visible;
+                        ButtonRegisterService.Visibility = Visibility.Hidden;
+                    }));
                     switch (sc.Status)
                     {
                         case ServiceControllerStatus.Running:
+                            Thread.Sleep(500);
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 LabelServiceStatusContent.Content = "Runnig";
@@ -51,6 +56,7 @@ namespace Emse.Updater.Settings.WPF
                             }));
                             break;
                         case ServiceControllerStatus.Stopped:
+                            Thread.Sleep(500);
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 LabelServiceStatusContent.Content = "Stopped";
@@ -59,6 +65,7 @@ namespace Emse.Updater.Settings.WPF
                             }));
                             break;
                         case ServiceControllerStatus.Paused:
+                            Thread.Sleep(500);
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 LabelServiceStatusContent.Content = "Paused";
@@ -70,6 +77,8 @@ namespace Emse.Updater.Settings.WPF
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
+                        ButtonUnRegisterService.Visibility = Visibility.Hidden;
+                        ButtonRegisterService.Visibility = Visibility.Visible;
                         LabelServiceStatusContent.Content = "Service Not Found!";
                         ButtonServiceNetStop.Visibility = Visibility.Hidden;
                         ButtonServiceNetStart.Visibility = Visibility.Hidden;
@@ -140,23 +149,71 @@ namespace Emse.Updater.Settings.WPF
 
         private void ButtonStartService_Click(object sender, RoutedEventArgs e)
         {
-            if (sc.Status == ServiceControllerStatus.Stopped)
+            try
             {
-                sc.Start();
+                if (sc.Status == ServiceControllerStatus.Stopped)
+                {
+                    sc.Start();
+                }
+                Thread.Sleep(500);
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
         private void ButtonStopService_Click(object sender, RoutedEventArgs e)
         {
-            if (sc.Status == ServiceControllerStatus.Running)
+            try
             {
-                sc.Stop();
+                if (sc.Status == ServiceControllerStatus.Running)
+                {
+                    sc.Stop();
+                }
+                Thread.Sleep(500);
+            }
+            catch (Exception ex)
+            {
+                // ignored
             }
         }
-
-        public static bool IsServiceInstalled(string serviceName)
+        private void ButtonRegisterService_Click(object sender, RoutedEventArgs e)
         {
-            ServiceController[] services = ServiceController.GetServices();
-            return services.Any(service => service.ServiceName == serviceName);
+            try
+            {
+                if (!ServiceInstalled)
+                {
+                    Helper.WindowsServiceHelper.RegisterWindowsService("EmseUpdater");
+                }
+                Thread.Sleep(500);
+                if (sc.Status == ServiceControllerStatus.Stopped)
+                {
+                    sc.Start();
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+        private void ButtonUnRegisterService_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sc.Status == ServiceControllerStatus.Running)
+                {
+                    sc.Stop();
+                }
+                Thread.Sleep(500);
+                if (ServiceInstalled)
+                {
+                    Helper.WindowsServiceHelper.UnRegisterWindowsService("EmseUpdater");
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
     }
 }

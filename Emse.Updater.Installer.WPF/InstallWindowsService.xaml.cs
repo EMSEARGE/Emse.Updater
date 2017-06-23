@@ -177,17 +177,17 @@ namespace Emse.Updater.Installer.WPF
 
             StatusInfoInvoker("Checking OS and services.msc");
             Thread.Sleep(1500);
-#if !DEBUG
-                    bool windowsRegistry = Handler.WindowsServiceHelper.RegisterWindowsService("EmseUpdater");
-                    if (windowsRegistry)
-                    {
-                        StatusInfoInvoker("Emse Updater has been added to Services ");
-                    }
-                    else
-                    {
-                        StatusInfoInvoker("Emse Updater is already installed");
-                    }
-#endif
+
+            bool windowsRegistry = Handler.WindowsServiceHelper.RegisterWindowsService("EmseUpdater");
+            if (windowsRegistry)
+            {
+                StatusInfoInvoker("Emse Updater has been added to Services ");
+            }
+            else
+            {
+                StatusInfoInvoker("Emse Updater is already installed");
+            }
+
             StatusInfoInvoker("Done!");
             Thread.Sleep(2000);
             OpenUpdaterSettings();

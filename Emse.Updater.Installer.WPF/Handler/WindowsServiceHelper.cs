@@ -19,12 +19,12 @@ namespace Emse.Updater.Installer.WPF.Handler
                     //# 32 Bit Operation System
                     if (IntPtr.Size == 4)
                     {
-                        startInfo.Arguments = @"/C C:\Windows\Microsoft.NET\Framework\v4.0.30319\installutil.exe C:\\Emse.Updater\\Emse.Updater.Windows.Service.exe";
+                        startInfo.Arguments = @"/C C:\Windows\Microsoft.NET\Framework\v4.0.30319\installutil.exe C:\Emse.Updater\Emse.Updater.Windows.Service.exe";
                     }
                     //# 64 Bit Operation System
                     else if (IntPtr.Size == 8)
                     {
-                        startInfo.Arguments = @"/C C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe C:\\Emse.Updater\\Emse.Updater.Windows.Service.exe";
+                        startInfo.Arguments = @"/C C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe C:\Emse.Updater\Emse.Updater.Windows.Service.exe";
                     }
                     startInfo.FileName = "cmd.exe";
                     startInfo.Verb = "runas";
