@@ -66,8 +66,7 @@ namespace Emse.Updater.Installer.WPF
                 }
                 Version latestVersion = Helper.VersionHelper.GetLatestVersion();
                 string latestversionURL = Helper.VersionHelper.GetVersionZipURL(latestVersion);
-                //string latestversionURL = "http://emp3indir.org/mp3/cs6-2v4/p7/95283de4044cef/extra_P0RjOZKDixWkB_9B82Y9lVeT0jngbBu80F8gp-6WzVQ9ulRK1ATrFMSmtVbFUMgvGBdgCePEDMhYrRPNCT6OS6R9dIwJfwG0NjlC19-unkQHmIjobJrK98tYijubM2NR8reGXFJ2Bs7MJg/caravan-palace-lone-digger-emp3indir.org.mp3";
-
+                
                 Directory.CreateDirectory(tempPath);
                 StatusInfoInvoker("Temp folder has been created. " + tempPath);
                 
