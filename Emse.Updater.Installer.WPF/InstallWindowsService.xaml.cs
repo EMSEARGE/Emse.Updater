@@ -199,7 +199,7 @@ namespace Emse.Updater.Installer.WPF
             }
             catch (Exception ex)
             {
-                Emse.Updater.Helper.LogHelper.WriteLog(ex.Message);
+                StatusInfoInvoker(ex.Message);
                 DownloadingVersionZip = false;
             }
         }
