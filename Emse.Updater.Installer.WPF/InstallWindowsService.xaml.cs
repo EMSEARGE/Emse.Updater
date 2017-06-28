@@ -199,7 +199,7 @@ namespace Emse.Updater.Installer.WPF
             {
                 LabelCurrentStatusContent.Content = "Running Emse Updater Settings";
             }));
-            Program = StartProcess("C:\\Emse.Updater\\Emse.Updater.Settings.WPF.exe");
+            Program = StartProcess("C:\\Emse.Updater\\Emse.Updater.Settings.exe");
             Thread.Sleep(5000);
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
