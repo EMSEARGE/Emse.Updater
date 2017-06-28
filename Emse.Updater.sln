@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emse.Updater.Helper", "Emse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emse.Updater.Windows.Service", "Emse.Updater.Windows.Service\Emse.Updater.Windows.Service.csproj", "{74486582-2D7E-4D1A-9815-3FD31A169476}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emse.Updater.Settings.WPF", "Emse.Updater.Settings.WPF\Emse.Updater.Settings.WPF.csproj", "{9ADA9B80-4D6B-420A-AE66-62CC6E89AABC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emse.Updater.Settings", "Emse.Updater.Settings.WPF\Emse.Updater.Settings.csproj", "{9ADA9B80-4D6B-420A-AE66-62CC6E89AABC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emse.Updater.Installer.WPF", "Emse.Updater.Installer.WPF\Emse.Updater.Installer.WPF.csproj", "{6AA2B6DD-A375-4956-AC6B-DDBEE763FF49}"
 EndProject
