@@ -14,7 +14,7 @@ namespace Emse.Updater.Installer.WPF
 {
     public partial class InstallWindowsService : Page
     {
-        public static string GlobalUrl = "http://192.168.1.1:8080";
+        public static string GlobalUrl = "http://191.235.157.215";
         public static string Url;
         public static bool DownloadingVersionZip;
         public static Tuple<DateTime, long, long> DownloadingVersionZipProgress = new Tuple<DateTime, long, long>(DateTime.MinValue, 0, 0);

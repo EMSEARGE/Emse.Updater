@@ -37,6 +37,10 @@
             <Label x:Name="LabelServiceStatusContent" Content="" HorizontalAlignment="Left" Margin="268,347,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Normal" />
             <Label x:Name="LabelServiceProcess" Content="Start/Stop Service:" HorizontalAlignment="Left" Margin="10,383,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
             <Label x:Name="LabelServiceRegister" Content="Install/Delete Service:" HorizontalAlignment="Left" Margin="10,421,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelCurrentUserContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,243,0,0" VerticalAlignment="Top" Width="155"/>
+            <Label x:Name="LabelCurrentUserRoleContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,280,0,0" VerticalAlignment="Top" Width="155"/>
+            <Label x:Name="LabelCurrentUser" Content="User:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="LabelCurrentUserRole" Content="Invoke Level:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>

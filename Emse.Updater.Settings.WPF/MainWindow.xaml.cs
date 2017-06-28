@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,8 @@ namespace Emse.Updater.Settings.WPF
         public static MainWindow Main { get; set; }
         public static bool ServiceInstalled { get; set; }
         public static ServiceController sc = new ServiceController("EmseUpdater");
-
+        public static string CurrentUser = Environment.UserName;
+        public static bool UserRole = IsAdministrator();
         public MainWindow()
         {
             sc = new ServiceController("EmseUpdater");
@@ -50,7 +52,7 @@ namespace Emse.Updater.Settings.WPF
                             Thread.Sleep(500);
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
-                                LabelServiceStatusContent.Content = "Runnig";
+                                LabelServiceStatusContent.Content = "Running";
                                 ButtonServiceNetStop.Visibility = Visibility.Visible;
                                 ButtonServiceNetStart.Visibility = Visibility.Hidden;
                             }));
@@ -94,6 +96,15 @@ namespace Emse.Updater.Settings.WPF
 
             Main.Dispatcher.Invoke(new Action(() =>
             {
+                if (UserRole)
+                {
+                    LabelCurrentUserRoleContent.Content = "Administrator";
+                }
+                else
+                {
+                    LabelCurrentUserRoleContent.Content = "Not Admin";
+                }
+                LabelCurrentUserContent.Content = CurrentUser;
                 TextBoxSecondsBetweenLoopText.Text = setting.SecondsBetweenLoop.ToString();
                 TextBoxCurrentVersionText.Text = setting.CurrentVersion;
                 TextBoxDomainText.Text = setting.Domain;
@@ -214,6 +225,12 @@ namespace Emse.Updater.Settings.WPF
             {
                 // ignored
             }
+        }
+        public static bool IsAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }
