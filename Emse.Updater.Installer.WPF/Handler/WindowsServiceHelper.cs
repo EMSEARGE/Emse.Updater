@@ -41,6 +41,30 @@ namespace Emse.Updater.Installer.WPF.Handler
 
             return result;
         }
+        public static bool UnRegisterWindowsService(string serviceName)
+        {
+            bool result = false;
+
+            try
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                if (IsServiceInstalled(serviceName))
+                {
+                    startInfo.Arguments = @" /C sc delete " + serviceName;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Verb = "runas";
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // ignored
+            }
+            return result;
+        }
         public static bool IsServiceInstalled(string serviceName)
         {
             ServiceController[] services = ServiceController.GetServices();

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,6 +18,8 @@ namespace Emse.Updater.Installer.WPF
         public static string GlobalUrl = "http://191.235.157.215";
         public static string Url;
         public static bool DownloadingVersionZip;
+        public static bool ServiceInstalled { get; set; }
+        public static ServiceController sc = new ServiceController("EmseUpdater");
         public static Tuple<DateTime, long, long> DownloadingVersionZipProgress = new Tuple<DateTime, long, long>(DateTime.MinValue, 0, 0);
         private static readonly WebClient Wc = new WebClient();
         public static Process Program { get; set; }
@@ -64,6 +67,7 @@ namespace Emse.Updater.Installer.WPF
         }
         private void DownloadUpdaterDeploy()
         {
+            CheckForInstall();
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 LabelCurrentStatusContent.Content = "Downloading Files";
@@ -136,8 +140,11 @@ namespace Emse.Updater.Installer.WPF
                 ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
 
                 StatusInfoInvoker("Files have been unzipped");
+                CloseProcess();
+                Thread.Sleep(1000);
+                KillProcess();
 
-                Thread.Sleep(2000);
+                
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     LabelCurrentStatusContent.Content = "Installing Files";
@@ -263,6 +270,58 @@ namespace Emse.Updater.Installer.WPF
         private void RadioButtonGlobal_Checked(object sender, RoutedEventArgs e)
         {
             TextBoxCustomUrl.Visibility = Visibility.Hidden;
+        }
+        private void CheckForInstall()
+        {
+            sc = new ServiceController("EmseUpdater");
+            ServiceInstalled = Handler.WindowsServiceHelper.IsServiceInstalled("EmseUpdater");
+            if (ServiceInstalled)
+            {
+                switch (sc.Status)
+                {
+                    case ServiceControllerStatus.Running:
+                        sc.Stop();
+                        Handler.WindowsServiceHelper.UnRegisterWindowsService("EmseUpdater");
+                        break;
+                    case ServiceControllerStatus.Stopped:
+                        Handler.WindowsServiceHelper.UnRegisterWindowsService("EmseUpdater");
+                        break;
+                    case ServiceControllerStatus.Paused:
+                        sc.Stop();
+                        Handler.WindowsServiceHelper.UnRegisterWindowsService("EmseUpdater");
+                        break;
+                }
+            }
+        }
+        public static void CloseProcess()
+        {
+            Process[] processOfEmse = Process.GetProcessesByName("Emse.Updater.Settings");
+            foreach (Process process in processOfEmse)
+            {
+                try
+                {
+                    process.CloseMainWindow();
+                }
+                catch (Exception ex)
+                {
+                    // ignored
+                }
+            }
+        }
+        public static void KillProcess()
+        {
+            Process[] processOfEmse = Process.GetProcessesByName("Emse.Updater.Settings");
+            foreach (Process process in processOfEmse)
+            {
+                try
+                {
+                    process.Kill();
+                }
+                catch (Exception ex)
+                {
+                    // ignored
+                }
+            }
         }
     }
 }
