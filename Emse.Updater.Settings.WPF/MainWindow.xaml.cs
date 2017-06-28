@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Principal;
 using System.ServiceProcess;
 using System.Threading;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Emse.Updater.DTO;
 using Emse.Updater.Helper;
+using IWshRuntimeLibrary;
 
 namespace Emse.Updater.Settings.WPF
 {
@@ -18,20 +20,19 @@ namespace Emse.Updater.Settings.WPF
         public static bool ServiceInstalled { get; set; }
         public static ServiceController sc = new ServiceController("EmseUpdater");
         public static string CurrentUser = Environment.UserName;
-        public static bool UserRole = IsAdministrator();
         public MainWindow()
         {
             sc = new ServiceController("EmseUpdater");
             InitializeComponent();
             Main = this;
             FillFields();
+            CreateShortcut();
             Task.Factory.StartNew(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
                 CheckWindowsService();
             });
         }
-
         private void CheckWindowsService()
         {
             while (true)
@@ -89,20 +90,21 @@ namespace Emse.Updater.Settings.WPF
                 Thread.Sleep(500);
             }
         }
-
         public void FillFields()
         {
             SettingDto setting = Helper.JsonHelper.JsonReader();
 
             Main.Dispatcher.Invoke(new Action(() =>
             {
-                if (UserRole)
+                if (IsLocalAdmin() && IsAdministrator())
                 {
                     LabelCurrentUserRoleContent.Content = "Administrator";
                 }
                 else
                 {
                     LabelCurrentUserRoleContent.Content = "Not Admin";
+                    MessageBox.Show("Administrator hesabı ile giriş yapmalısınız.");
+                    Environment.Exit(1);
                 }
                 LabelCurrentUserContent.Content = CurrentUser;
                 TextBoxSecondsBetweenLoopText.Text = setting.SecondsBetweenLoop.ToString();
@@ -115,7 +117,6 @@ namespace Emse.Updater.Settings.WPF
                 TextBoxExeNameText.Text = setting.ExeName;
             }));
         }
-
         private void ButtonKaydet_Click(object sender, RoutedEventArgs e)
         {
             int secondsBetweenLoop = 10;
@@ -157,7 +158,6 @@ namespace Emse.Updater.Settings.WPF
                 Emse.Updater.Helper.LogHelper.WriteLog(ex.Message);
             }
         }
-
         private void ButtonStartService_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -231,6 +231,32 @@ namespace Emse.Updater.Settings.WPF
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+        public static bool IsLocalAdmin()
+        {
+            WindowsIdentity windowsIdentity = WindowsIdentity.GetCurrent();
+
+            // Get the built-in administrator account.
+            SecurityIdentifier sid = new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
+
+            // Compare to the current user.
+            bool isBuiltInAdmin = (windowsIdentity.User == sid);
+
+            SecurityIdentifier localAdminGroupSid = new SecurityIdentifier(
+            WellKnownSidType.BuiltinAdministratorsSid, null);
+            return  windowsIdentity.Groups.Select(g => (SecurityIdentifier)g.Translate(typeof(SecurityIdentifier))).Any(s => s == localAdminGroupSid);
+        } 
+        private void CreateShortcut()
+        {
+            object shDesktop = (object)"Desktop";
+            WshShell shell = new WshShell();
+            string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\Emse.Updater.Settings.lnk";
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.Description = "New shortcut for a Emse.Updater.Settings";
+            shortcut.Hotkey = "Ctrl+Shift+N";
+            //shortcut.TargetPath = @"C:\Emse.Updater\Emse.Updater.Settings.exe";
+            shortcut.TargetPath = System.AppDomain.CurrentDomain.BaseDirectory + PathHelper.CurrentExeLocation();
+            shortcut.Save();
         }
     }
 }
