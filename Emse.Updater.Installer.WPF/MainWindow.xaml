@@ -2,7 +2,7 @@
                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        ResizeMode="NoResize"
-        Title="" Height="400" Width="550" BorderThickness="1" BorderBrush="DarkGray">
+        Title="" Height="400" Width="550"  Icon="EmseUpdaterICo.ico" BorderThickness="1" BorderBrush="DarkGray">
     <Grid>
         <DockPanel Margin="0,0,0,0" Grid.Column="0" HorizontalAlignment="Left" Width="550">
             <Frame x:Name="_NavigationFrame" NavigationUIVisibility="Hidden" Margin="0,0,0,0" VerticalAlignment="Top"/>

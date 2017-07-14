@@ -8,7 +8,7 @@
       d:DesignHeight="370" d:DesignWidth="550"
       Title="Emse Updater">
     <Grid>
-        <Grid  x:Name="GridWindowsInstallerWellcome" Visibility="Visible">
+        <Grid  x:Name="GridWindowsInstallerWellcome" Visibility="Hidden">
             <Grid HorizontalAlignment="Left" Width="550">
                 <Label x:Name="LabelWindowsServiceInstaller" FontSize="36" Content="Windows Service Installer" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="5,10,0,0" VerticalAlignment="Top" Height="65" Width="535"/>
                 <Label x:Name="LabelWindowsServiceInstallerInfo" FontSize="18" Content="Application will be downloaded and installed automatically. &#xA;Please start the install progress." HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Height="65" Width="530"/>
@@ -19,9 +19,25 @@
             </Grid>
         </Grid>
         <Grid x:Name="GridInstallProgress" Visibility="Hidden">
-            <Label x:Name="LabelCurrentStatus" Content="Status:" FontSize="20" HorizontalAlignment="Left" Margin="25,60,0,0" VerticalAlignment="Top" Height="40" Width="97"/>
-            <Label x:Name="LabelCurrentStatusContent" Content="" FontSize="20" HorizontalAlignment="Left" Margin="140,60,0,0" VerticalAlignment="Top" Height="40" Width="265"/>
-            <TextBlock x:Name="TextBlockCurrentStatusInfo" TextWrapping="Wrap"  FontSize="16" HorizontalAlignment="Left" Margin="25,105,0,0" VerticalAlignment="Top" Height="83" Width="482"/>
+            <Label x:Name="LabelCurrentStatus" Content="Process:" FontSize="20" HorizontalAlignment="Left" Margin="25,270,0,0" VerticalAlignment="Top" Height="40" Width="97"/>
+            <Label x:Name="LabelCurrentStatusContent" Visibility="Hidden" Content="" FontSize="20" HorizontalAlignment="Left" Margin="127,232,0,0" VerticalAlignment="Top" Height="40" Width="380"/>
+            <TextBlock x:Name="TextBlockCurrentStatusInfo" TextWrapping="Wrap"  FontSize="16" HorizontalAlignment="Left" Margin="127,277,0,0" VerticalAlignment="Top" Height="40" Width="380"/>
+            <Image x:Name="ImageDownloadingFilesNotCompleted" Visibility="Visible" HorizontalAlignment="Left" Height="35" Margin="10,25,0,0" VerticalAlignment="Top" Width="35" Source="Resources/iconNotCompleted.png"/>
+            <Image x:Name="ImageDownloadingFilesCurrent" HorizontalAlignment="Left" Height="55" Margin="1,15,0,0" VerticalAlignment="Top" Width="55" Visibility="Hidden" Source="Resources/iconCurrent.png"/>
+            <Image x:Name="ImageDownloadingFilesCompleted" HorizontalAlignment="Left" Height="35" Margin="10,25,0,0" VerticalAlignment="Top" Width="35" Visibility="Hidden" Source="Resources/iconCompleted.png"/>
+            <Image x:Name="ImageUnzippingFilesNotCompleted" HorizontalAlignment="Left" Height="35" Margin="10,75,0,0" VerticalAlignment="Top" Width="35" Source="Resources/iconNotCompleted.png"/>
+            <Image x:Name="ImageUnzippingFilesCurrent" Visibility="Hidden" HorizontalAlignment="Left" Height="55" Margin="1,65,0,0" VerticalAlignment="Top" Width="55" Source="Resources/iconCurrent.png"/>
+            <Image x:Name="ImageUnzippingFilesCompleted" HorizontalAlignment="Left" Height="35" Margin="10,75,0,0" VerticalAlignment="Top" Width="35" Visibility="Hidden" Source="Resources/iconCompleted.png"/>
+            <Image x:Name="ImageInstallingWindowsServiceNotCompleted" HorizontalAlignment="Left" Height="35" Margin="10,125,0,0" VerticalAlignment="Top" Width="35" Source="Resources/iconNotCompleted.png"/>
+            <Image x:Name="ImageInstallingWindowsServiceCurrent" Visibility="Hidden" HorizontalAlignment="Left" Height="55" Margin="1,115,0,0" VerticalAlignment="Top" Width="55" Source="Resources/iconCurrent.png"/>
+            <Image x:Name="ImageInstallingWindowsServiceCompleted" HorizontalAlignment="Left" Height="35" Margin="10,125,0,0" VerticalAlignment="Top" Width="35" Visibility="Hidden" Source="Resources/iconCompleted.png"/>
+            <Image x:Name="ImageRunningEmseUpdaterSettingsNotCompleted" HorizontalAlignment="Left" Height="35" Margin="10,175,0,0" VerticalAlignment="Top" Width="35" Source="Resources/iconNotCompleted.png"/>
+            <Image x:Name="ImageRunningEmseUpdaterSettingsCurrent" Visibility="Hidden" HorizontalAlignment="Left" Height="55" Margin="1,165,0,0" VerticalAlignment="Top" Width="55" Source="Resources/iconCurrent.png"/>
+            <Image x:Name="ImageRunningEmseUpdaterSettingsCompleted" HorizontalAlignment="Left" Height="35" Margin="10,175,0,0" VerticalAlignment="Top" Width="35" Visibility="Hidden" Source="Resources/iconCompleted.png"/>
+            <Label x:Name="LabelDownloadFiles" Content="Download Files" HorizontalAlignment="Left" FontSize="18" Margin="70,25,0,0" VerticalAlignment="Top" Width="470"/>
+            <Label x:Name="LabelUnzipFiles" Content="Unzip Files" HorizontalAlignment="Left" FontSize="18" Margin="70,75,0,0" VerticalAlignment="Top" Width="470"/>
+            <Label x:Name="LabelInstallWindowsService" Content="Install Windows Service" HorizontalAlignment="Left" FontSize="18" Margin="70,125,0,0" VerticalAlignment="Top" Width="470"/>
+            <Label x:Name="LabelRunEmseUpdaterSettings" Content="Run Emse Updater Settings" HorizontalAlignment="Left" FontSize="18" Margin="70,175,0,0" VerticalAlignment="Top" Width="470"/>
         </Grid>
     </Grid>
 

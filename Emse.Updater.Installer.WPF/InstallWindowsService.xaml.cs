@@ -71,6 +71,9 @@ namespace Emse.Updater.Installer.WPF
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 LabelCurrentStatusContent.Content = "Downloading Files";
+                LabelDownloadFiles.Content = "Downloading Files";
+                ImageDownloadingFilesNotCompleted.Visibility = Visibility.Hidden;
+                ImageDownloadingFilesCurrent.Visibility = Visibility.Visible;
             }));
             while (true)
             {
@@ -139,6 +142,17 @@ namespace Emse.Updater.Installer.WPF
                 Thread.Sleep(2000);
                 ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
 
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    LabelDownloadFiles.Content = "Files have been downloaded.";
+                    ImageDownloadingFilesCurrent.Visibility = Visibility.Hidden;
+                    ImageDownloadingFilesCompleted.Visibility = Visibility.Visible;
+
+                    LabelUnzipFiles.Content = "Unzipping Files.";
+                    ImageUnzippingFilesCurrent.Visibility = Visibility.Visible;
+                    ImageUnzippingFilesNotCompleted.Visibility = Visibility.Hidden;
+                }));
+
                 StatusInfoInvoker("Files have been unzipped");
                 CloseProcess();
                 Thread.Sleep(1000);
@@ -147,7 +161,7 @@ namespace Emse.Updater.Installer.WPF
                 
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    LabelCurrentStatusContent.Content = "Installing Files";
+                    LabelCurrentStatusContent.Content = "Unzipping Files";
                 }));
 
                 System.IO.Directory.CreateDirectory(realPath);
@@ -179,7 +193,14 @@ namespace Emse.Updater.Installer.WPF
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
+                LabelUnzipFiles.Content = "Files have been unzipped.";
                 LabelCurrentStatusContent.Content = "Installing Windows Service";
+                ImageUnzippingFilesCurrent.Visibility = Visibility.Hidden;
+                ImageUnzippingFilesCompleted.Visibility = Visibility.Visible;
+
+                LabelInstallWindowsService.Content = "Installing Windows Service";
+                ImageInstallingWindowsServiceCurrent.Visibility = Visibility.Visible;
+                ImageInstallingWindowsServiceNotCompleted.Visibility = Visibility.Hidden;
             }));
 
             StatusInfoInvoker("Checking OS and services.msc");
@@ -204,9 +225,23 @@ namespace Emse.Updater.Installer.WPF
             StatusInfoInvoker("");
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
+                LabelInstallWindowsService.Content = "Windows Service has been installed";
                 LabelCurrentStatusContent.Content = "Running Emse Updater Settings";
+                ImageInstallingWindowsServiceCurrent.Visibility = Visibility.Hidden;
+                ImageInstallingWindowsServiceCompleted.Visibility = Visibility.Visible;
+
+                LabelRunEmseUpdaterSettings.Content = "Running Emse Updater Settings";
+                ImageRunningEmseUpdaterSettingsCurrent.Visibility = Visibility.Visible;
+                ImageRunningEmseUpdaterSettingsNotCompleted.Visibility = Visibility.Hidden;
             }));
             Program = StartProcess("C:\\Emse.Updater\\Emse.Updater.Settings.exe");
+            Thread.Sleep(1000);
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                LabelRunEmseUpdaterSettings.Content = "Emse Updater Settings";
+                ImageRunningEmseUpdaterSettingsCompleted.Visibility = Visibility.Visible;
+                ImageRunningEmseUpdaterSettingsCurrent.Visibility = Visibility.Hidden;
+            }));
             Thread.Sleep(5000);
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
