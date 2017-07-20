@@ -10,37 +10,37 @@
         Icon="./Resources/EmseQ_Settings.png">
     <Grid Margin="0,0,0,-3">
         <Grid HorizontalAlignment="Left" Margin="10,10,0,10" Width="497">
-            <Label x:Name="LabelSecondsBetweenLoop" Content="Seconds Between Loop:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="198" Height="26" FontSize="14" FontWeight="Bold"  Margin="10,15,0,0"/>
-            <Label x:Name="LabelCurrentVersion" Content="Current Version: " HorizontalAlignment="Left" Margin="268,15,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelPath" Content="Path:" HorizontalAlignment="Left" Margin="268,123,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.26,-0.523" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <TextBox x:Name="TextBoxSecondsBetweenLoopText"  HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.08,0.459" Width="200" Height="26" FontSize="14" />
-            <TextBox x:Name="TextBoxCurrentVersionText"  HorizontalAlignment="Left" Margin="268,46,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.126,1.081" Width="200" Height="26" FontSize="14"/>
-            <Label x:Name="LabelDomain" Content="Domain:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelUrlZip" Content="UrlZip:" HorizontalAlignment="Left" Margin="268,72,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelFileExtension" Content="FileExtension:" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" Width="200" Height="25" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelTempPath" Content="TempPath:" HorizontalAlignment="Left" Margin="10,174,0,0" VerticalAlignment="Top" Width="200" Height="28" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelExeName" Content="ExeName:" HorizontalAlignment="Left" Margin="268,174,0,0" VerticalAlignment="Top" Width="200" Height="28" FontSize="14" FontWeight="Bold" />
-            <TextBox x:Name="TextBoxDomainText" HorizontalAlignment="Left" Height="25" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"  RenderTransformOrigin="0.492,1.445" FontSize="14" />
-            <TextBox x:Name="TextBoxUrlZipText" HorizontalAlignment="Left" Height="25" Margin="268,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <TextBox x:Name="TextBoxFileExtension" HorizontalAlignment="Left" Height="26" Margin="10,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14"  IsReadOnly="True"/>
-            <TextBox x:Name="TextBoxPathText" HorizontalAlignment="Left" Height="25" Margin="268,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <TextBox x:Name="TextBoxTempPathText" HorizontalAlignment="Left" Height="25" Margin="10,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <TextBox x:Name="TextBoxExeNameText" HorizontalAlignment="Left" Height="25" Margin="268,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <Button x:Name="ButtonKaydet" Content="SAVE" HorizontalAlignment="Left" Margin="268,243,0,0" VerticalAlignment="Top" Width="200" Click="ButtonKaydet_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+            <Label x:Name="LabelSecondsBetweenLoop" Content="Seconds Between Loop:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="198" Height="26" FontSize="14" FontWeight="Bold"  Margin="10,211,0,0"/>
+            <Label x:Name="LabelCurrentVersion" Content="Current Version: " HorizontalAlignment="Left" Margin="268,211,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelPath" Content="Path:" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.26,-0.523" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
+            <TextBox x:Name="TextBoxSecondsBetweenLoopText"  HorizontalAlignment="Left" Margin="10,242,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.08,0.459" Width="200" Height="26" FontSize="14" />
+            <TextBox x:Name="TextBoxCurrentVersionText"  HorizontalAlignment="Left" Margin="268,236,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.126,1.081" Width="200" Height="26" FontSize="14"/>
+            <Label x:Name="LabelDomain" Content="Domain:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelUrlZip" Content="UrlZip:" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelFileExtension" Content="FileExtension:" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="200" Height="25" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelTempPath" Content="TempPath:" HorizontalAlignment="Left" Margin="268,112,0,0" VerticalAlignment="Top" Width="200" Height="28" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelExeName" Content="ExeName:" HorizontalAlignment="Left" Margin="268,160,0,0" VerticalAlignment="Top" Width="200" Height="28" FontSize="14" FontWeight="Bold" />
+            <TextBox x:Name="TextBoxDomainText" HorizontalAlignment="Left" Height="25" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458"  RenderTransformOrigin="0.492,1.445" FontSize="14" />
+            <TextBox x:Name="TextBoxUrlZipText" HorizontalAlignment="Left" Height="25" Margin="10,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="14" />
+            <TextBox x:Name="TextBoxFileExtension" HorizontalAlignment="Left" Height="26" Margin="10,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14"  IsReadOnly="True"/>
+            <TextBox x:Name="TextBoxPathText" HorizontalAlignment="Left" Height="25" Margin="10,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
+            <TextBox x:Name="TextBoxTempPathText" HorizontalAlignment="Left" Height="25" Margin="268,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
+            <TextBox x:Name="TextBoxExeNameText" HorizontalAlignment="Left" Height="25" Margin="268,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
+            <Button x:Name="ButtonKaydet" Content="SAVE" HorizontalAlignment="Left" Margin="268,279,0,0" VerticalAlignment="Top" Width="200" Click="ButtonKaydet_Click" Height="33" Background="ForestGreen" Foreground="White"/>
             <Button x:Name="ButtonServiceNetStart" Visibility="Hidden" Content="START" HorizontalAlignment="Left" Margin="268,383,0,0" VerticalAlignment="Top" Width="200" Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-            <Button x:Name="ButtonServiceNetStop" Visibility="Visible" Content="STOP" HorizontalAlignment="Left" Margin="268,383,0,0" VerticalAlignment="Top" Width="200" Click="ButtonStopService_Click" Height="33" Background="Red" Foreground="White"/>
-            <Button x:Name="ButtonRegisterService" Visibility="Visible" Content="INSTALL SERVICE" HorizontalAlignment="Left" Margin="268,421,0,0" VerticalAlignment="Top" Width="200" Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-            <Button x:Name="ButtonUnRegisterService" Visibility="Visible" Content="DELETE SERVICE" HorizontalAlignment="Left" Margin="268,421,0,0" VerticalAlignment="Top" Width="200" Click="ButtonUnRegisterService_Click" Height="33" Background="Red" Foreground="White"/>
-            <Label x:Name="LabelServiceName" Content="Service Name:" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelServiceNameContent" Content="Emse Updater" HorizontalAlignment="Left" Margin="268,311,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Normal" />
-            <Label x:Name="LabelServiceStatus" Content="Service Status:" HorizontalAlignment="Left" Margin="10,347,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelServiceStatusContent" Content="" HorizontalAlignment="Left" Margin="268,347,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Normal" />
-            <Label x:Name="LabelServiceProcess" Content="Start/Stop Service:" HorizontalAlignment="Left" Margin="10,383,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelServiceRegister" Content="Install/Delete Service:" HorizontalAlignment="Left" Margin="10,421,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelCurrentUserContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,243,0,0" VerticalAlignment="Top" Width="155"/>
-            <Label x:Name="LabelCurrentUserRoleContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,280,0,0" VerticalAlignment="Top" Width="155"/>
-            <Label x:Name="LabelCurrentUser" Content="User:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="LabelCurrentUserRole" Content="Invoke Level:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="ButtonServiceNetStop" Visibility="Visible" Content="STOP" HorizontalAlignment="Left" Margin="268,393,0,0" VerticalAlignment="Top" Width="200" Click="ButtonStopService_Click" Height="33" Background="Red" Foreground="White"/>
+            <Button x:Name="ButtonRegisterService" Visibility="Visible" Content="INSTALL SERVICE" HorizontalAlignment="Left" Margin="268,436,0,0" VerticalAlignment="Top" Width="200" Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+            <Button x:Name="ButtonUnRegisterService" Visibility="Visible" Content="DELETE SERVICE" HorizontalAlignment="Left" Margin="268,436,0,0" VerticalAlignment="Top" Width="200" Click="ButtonUnRegisterService_Click" Height="33" Background="Red" Foreground="White"/>
+            <Label x:Name="LabelServiceName" Content="Service Name:" HorizontalAlignment="Left" Margin="10,326,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelServiceNameContent" Content="Emse Updater" HorizontalAlignment="Left" Margin="268,326,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Normal" />
+            <Label x:Name="LabelServiceStatus" Content="Service Status:" HorizontalAlignment="Left" Margin="10,357,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelServiceStatusContent" Content="" HorizontalAlignment="Left" Margin="268,357,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Normal" />
+            <Label x:Name="LabelServiceProcess" Content="Start/Stop Service:" HorizontalAlignment="Left" Margin="10,393,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelServiceRegister" Content="Install/Delete Service:" HorizontalAlignment="Left" Margin="8,438,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
+            <Label x:Name="LabelCurrentUserContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,269,0,0" VerticalAlignment="Top" Width="155"/>
+            <Label x:Name="LabelCurrentUserRoleContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,300,0,0" VerticalAlignment="Top" Width="155"/>
+            <Label x:Name="LabelCurrentUser" Content="User:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="LabelCurrentUserRole" Content="Invoke Level:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>
