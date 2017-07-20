@@ -241,11 +241,7 @@ namespace Emse.Updater.Installer.WPF
                 LabelRunEmseUpdaterSettings.Content = "Emse Updater Settings";
                 ImageRunningEmseUpdaterSettingsCompleted.Visibility = Visibility.Visible;
                 ImageRunningEmseUpdaterSettingsCurrent.Visibility = Visibility.Hidden;
-            }));
-            Thread.Sleep(5000);
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                LabelCurrentStatusContent.Content = "";
+                LabelCurrentStatusContent.Content = "Closing...";
             }));
             Environment.Exit(1);
         }

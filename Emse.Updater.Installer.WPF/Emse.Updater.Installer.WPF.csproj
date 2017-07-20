@@ -120,10 +120,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="EmseUpdaterICo.ico" />
     <Resource Include="Resources\iconCompleted.png" />
     <Resource Include="Resources\iconNotCompleted.png" />
     <Resource Include="Resources\iconCurrent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="EmseUpdaterICo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
