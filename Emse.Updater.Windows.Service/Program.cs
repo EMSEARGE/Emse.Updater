@@ -19,6 +19,7 @@ namespace Emse.Updater.Windows.Service
                 Program.Start(args);
                 new Program().OnStop();
             }
+            Console.ReadLine();
         }
         private static void Start(string[] args)
         {

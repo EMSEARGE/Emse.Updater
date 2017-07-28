@@ -164,7 +164,7 @@ namespace Emse.Updater.Windows.Service
         // Gets the user token from the currently active session
         private static bool GetSessionUserToken(ref IntPtr phUserToken)
         {
-            var bResult = false;
+            var bResult = true;
             var hImpersonationToken = IntPtr.Zero;
             var activeSessionId = INVALID_SESSION_ID;
             var pSessionInfo = IntPtr.Zero;
