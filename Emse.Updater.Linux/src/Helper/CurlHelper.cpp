@@ -78,13 +78,9 @@ bool CurlHelper::CheckVersion(string Domain)
 	string cmd = Domain + "version.txt";
 
 	const char *url= ConvertStrToConstChar(ConvertStrToConstChar(cmd));
-
 	char outfilename[FILENAME_MAX] = "./tempVersion.txt";
 
 	curl_version_info_data * vinfo = curl_version_info(CURLVERSION_NOW);
-
-	//if(vinfo->features & CURL_VERSION_SSL) printf("CURL: SSL enabled\n");
-	//else printf("CURL: SSL not enabled\n");
 
 	curl = curl_easy_init();
 	if (curl)
@@ -101,7 +97,6 @@ bool CurlHelper::CheckVersion(string Domain)
 		res = curl_easy_perform(curl);
 		curl_easy_cleanup(curl);
 
-
 		int i=fclose(fp);
 		if( i==0)
 		{
@@ -113,6 +108,8 @@ bool CurlHelper::CheckVersion(string Domain)
 				myfile.close();
 			}
 			LatestVersion = line;
+			system("rm -f tempVersion.txt");
+			sleep(1);
 			return true;
 		}
 	}

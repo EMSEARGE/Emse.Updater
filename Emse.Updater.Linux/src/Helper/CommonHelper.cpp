@@ -49,6 +49,8 @@ const char *CommonHelper::ReadVersion()
 
 void CommonHelper::WriteVersion(const char *version)
 {
+	cout<<"Updating version.txt ..."<<endl;
+	sleep(1);
 	ofstream myfile ("version.txt");
 	if (myfile.is_open())
 	{
@@ -78,6 +80,7 @@ void CommonHelper::ExtractFiles()
 {
 	cout<<"Extracting files..."<<endl;
 	system("unzip -o -q tempDownloadedFile.zip -d TEMP.EmseQ.HS");
+	sleep(1);
 }
 
 void CommonHelper::UpdateFiles(const char *AppPath)
@@ -89,12 +92,15 @@ void CommonHelper::UpdateFiles(const char *AppPath)
 
 	cmd = string("cp -r TEMP.EmseQ.HS/. ") + AppPath;
 	system(ConvertStringToConstChar(cmd));
+	sleep(5);
+	cmd = (string("sudo chmod -R 777 ") + AppPath);
+	system(ConvertStringToConstChar(cmd));
 }
 
 void CommonHelper::DeleteTempFiles()
 {
 	cout<<"Deleting temp files"<<endl;
-
+	sleep(1);
 	system("rm -rf TEMP.EmseQ.HS");
 	system("rm -f tempDownloadedFile.zip");
 }

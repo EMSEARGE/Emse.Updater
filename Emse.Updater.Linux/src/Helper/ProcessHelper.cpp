@@ -17,16 +17,19 @@ string ConvertIntToString(int value)
 	return Result;
 }
 
-void StartProcessThread(string AppPath, string AppName){
-	system(convertStrToChar(string("cd ") + AppPath + string("/Debug && sudo ./") + AppName));
+void StartProcessThread(string AppPath, string AppName)
+{
+	cout<<"Starting Application: "<<AppName<<endl;
+	system(convertStrToChar(string ("cd ") + AppPath + string("/Debug/ && sudo ./") + AppName));
 }
 
-ProcessHelper::ProcessHelper() {
+ProcessHelper::ProcessHelper()
+{
 	// TODO Auto-generated constructor stub
-
 }
 
-ProcessHelper::~ProcessHelper() {
+ProcessHelper::~ProcessHelper()
+{
 	// TODO Auto-generated destructor stub
 }
 
@@ -77,11 +80,8 @@ void ProcessHelper::StartProcessByName(string AppPath, string procName)
 {
 	thread t1(&StartProcessThread, AppPath, procName);
 	t1.detach();
-	//system(convertStrToChar(string("cd ") + AppPath + string("/Debug && sudo ./") + procName));
-	//StartProcessThread(AppPath, procName);
 }
 
 void ProcessHelper::CloseProcessByName(string procName){
-	system(convertStrToChar(string("sudo kill -TERM -- -") + ConvertIntToString(GetProcIdByName(procName))));
-
+	system("sudo killall -9 EmseQ.Hardware.Service.Linux");
 }

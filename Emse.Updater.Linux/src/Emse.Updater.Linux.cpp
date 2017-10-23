@@ -16,9 +16,6 @@ extern string CurrentVersion;
 extern string LatestVersion;
 
 int main() {
-
-
-
 	XMLParserHelper().ParseConfig();
 	cout<<"Domain Adress: "<<Domain<<endl;
 	cout<<"Application Path: "<<AppPath<<endl;
@@ -29,20 +26,17 @@ int main() {
 
 	int pid = ProcessHelper().GetProcIdByName(AppName);
 
-	//TODO extract
-	//TODO update
-	//TODO delete temp
-	//TODO start app
-
 	while(true)
 	{
 		if(ProcessHelper().GetProcIdByName(AppName) == -1)
 		{
 			ProcessHelper().StartProcessByName(AppPath, AppName);
 		}
+		sleep(1);
 
 		XMLParserHelper().ParseConfig();
 		CurrentVersion = CommonHelper().ReadVersion();
+
 		if(CurlHelper().CheckVersion(Domain))
 		{
 			if(CommonHelper().cmpVersion(CommonHelper().ConvertStringToConstChar(CurrentVersion), CommonHelper().ConvertStringToConstChar(LatestVersion)) == 0)
@@ -53,7 +47,7 @@ int main() {
 			else
 			{
 				ProcessHelper().CloseProcessByName(AppName);
-
+				sleep(1);
 				if(CurlHelper().DownloadFiles(Domain))
 				{
 					CommonHelper().ExtractFiles();
@@ -65,6 +59,7 @@ int main() {
 				{
 					cout<<"Download Fail"<<endl;
 				}
+				sleep(1);
 				ProcessHelper().StartProcessByName(AppPath, AppName);
 			}
 		}
@@ -72,12 +67,8 @@ int main() {
 		{
 			cout<<"No connection..."<<endl;
 		}
-
 		sleep(10);
 	}
-
-
-
 	return 0;
 }
 
