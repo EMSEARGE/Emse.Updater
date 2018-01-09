@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Configuration>
+    <Domain>192.168.3.27/</Domain>
+    <AppPath>/home/debian/EmseQ.Hardware.Service.Linux</AppPath>
+    <HomePath>/home/debian</HomePath>
+    <AppName>HardwareService</AppName>
+    <ThreadSleepCount>10</ThreadSleepCount>
+</Configuration>
