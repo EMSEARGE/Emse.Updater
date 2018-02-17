@@ -11,10 +11,12 @@ set(SOURCE_FILES
         Helper/ProcessHelper.cpp
         App.cpp
         HeaderFiles/Configuration.h
+        Helper/LogHelper.cpp
         HeaderFiles/CommonHelper.h
         HeaderFiles/App.h
         HeaderFiles/CurlHelper.h
         HeaderFiles/ProcessHelper.h
+        HeaderFiles/LogHelper.h
         )
 
 add_executable(Emse_Updater_Linux ${SOURCE_FILES})
@@ -55,3 +57,5 @@ add_custom_command(TARGET Emse_Updater_Linux POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/version.txt
         ${CMAKE_CURRENT_BINARY_DIR}/version.txt)
+
+include_directories(${PROJECT_SOURCE_DIR}/spdlog/)
