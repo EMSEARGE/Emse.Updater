@@ -24,6 +24,7 @@ public:
     void ExtractFiles();
     void UpdateFiles(const char *AppPath, const char *HomePath);
     void DeleteTempFiles();
+    std::string CurrentDir();
 };
 
 #endif

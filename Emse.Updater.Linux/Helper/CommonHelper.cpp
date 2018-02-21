@@ -7,6 +7,8 @@
 #include <Configuration.h>
 #include "../HeaderFiles/CommonHelper.h"
 
+#define GetCurrentDir getcwd
+
 #define SSTR( x ) static_cast< std::ostringstream & >( \
         ( std::ostringstream() << std::dec << x ) ).str()
 
@@ -114,4 +116,18 @@ ConfigurationDto CommonHelper::GetConfiguration()
         //Helper().WriteLog(ERRORLOG, "Could not read Configuration.xml");
         throw 1;
     }
+}
+
+std::string CommonHelper::CurrentDir()
+{
+    char cCurrentPath[FILENAME_MAX];
+
+    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
+    {
+        return "";
+    }
+
+    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
+
+    return (std::string) cCurrentPath;
 }

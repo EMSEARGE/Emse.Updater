@@ -58,4 +58,14 @@ add_custom_command(TARGET Emse_Updater_Linux POST_BUILD
         ${CMAKE_SOURCE_DIR}/version.txt
         ${CMAKE_CURRENT_BINARY_DIR}/version.txt)
 
+add_custom_command(TARGET Emse_Updater_Linux POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/updater.html
+        ${CMAKE_CURRENT_BINARY_DIR}/updater.html)
+
+add_custom_command(TARGET Emse_Updater_Linux POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/content/load.gif
+        ${CMAKE_CURRENT_BINARY_DIR}/content/load.gif)
+
 include_directories(${PROJECT_SOURCE_DIR}/spdlog/)

@@ -69,6 +69,7 @@ int main()
             else
             {
                 LogHelper().WriteLog(INFOLOG, "Update process has been started. ");
+                ProcessHelper().StartUpdateScreen();
                 ProcessHelper().CloseProcessByName(App::Configuration.AppName );
                 LogHelper().WriteLog(INFOLOG, "Process has been stopped: " + App::Configuration.AppName);
 

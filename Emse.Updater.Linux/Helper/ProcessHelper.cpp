@@ -5,6 +5,7 @@
 #include <boost/exception/all.hpp>
 #include <boost/thread.hpp>
 #include <App.h>
+#include <CommonHelper.h>
 
 const char* convertStrToChar(string str)
 {
@@ -92,3 +93,54 @@ void ProcessHelper::CloseProcessByName(string procName)
     const char *command = convertStrToChar(string("sudo killall -9 " +  App::Configuration.AppName));
     system(command);
 }
+
+void ProcessHelper::StartUpdateScreen()
+{
+    CloseKioskScreen();
+
+    std::string url = "google-chrome "
+                              "file://" + CommonHelper().CurrentDir() + "/updater.html "
+                              "--user-data-dir=/tmp/chrome-data "
+                              "--no-sandbox "
+                              "--no-first-run "
+                              "--kiosk "
+                              "--incognito "
+                              "--disable-pinch "
+                              "--overscroll-history-navigation=0 "
+                              "--fast --fast-start "
+                              "--unsafely-treat-insecure-origin-as-secure= file://" + CommonHelper().CurrentDir() + "/updater.html "
+                              "--allow-running-insecure-content "
+                              "--check-for-update-interval=604800 "
+                              "--extensions-update-frequency=604800 "
+                              "--new-window "
+                              "--window-position=0,0 "
+                              "--disable-notifications "
+                              "--enable-media-stream "
+                              "--no-default-browser-check "
+                              "--aggressive-cache-discard "
+                              "--disk-cache-size=1 --disable-cache "
+                              "--disk-cache-dir=/tmp/chrome-data "
+                              "--media-cache-dir=/tmp/chrome "
+                              "--disable-gpu-program-cache "
+                              "--disable-gpu-shader-disk-cache "
+                              "--disable-lru-snapshot-cache "
+                              "--disable-application-cache "
+                              "--use-fake-ui-for-media-stream "
+                              "--ignore-certificate-errors "
+                              "--test-type";
+
+    std::thread t3((system), "sudo rm -rf /tmp/chrome-data");
+    t3.detach();
+
+    std::thread t4((system), "sudo rm -rf /tmp/chrome");
+    t4.detach();
+
+    std::thread t2((system), url.c_str());
+    t2.detach();
+}
+
+void ProcessHelper::CloseKioskScreen()
+{
+    system("sudo killall -9 chrome");
+}
+

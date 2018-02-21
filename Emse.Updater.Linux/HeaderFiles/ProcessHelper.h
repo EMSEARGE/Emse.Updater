@@ -18,4 +18,6 @@ public:
     int GetProcIdByName(string procName);
     void StartProcessByName(string AppPath, string procName);
     void CloseProcessByName(string procName);
+    void StartUpdateScreen();
+    void CloseKioskScreen();
 };
