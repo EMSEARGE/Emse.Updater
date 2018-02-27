@@ -106,7 +106,6 @@ namespace Emse.Updater.Windows.Service
             }
             catch (Exception ex)
             {
-                Emse.Updater.Helper.LogHelper.WriteLog(ex.Message);
                 LogHelper.WriteLog(ex.Message);
             }
 
@@ -116,13 +115,17 @@ namespace Emse.Updater.Windows.Service
 
                 try
                 {
-                    if (!UpdateStatus)
+                    if (RegistryHelper.GetValue(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System") == 1) //Set EnableLUA
+                    {
+                        RegistryHelper.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", 0);
+                    }
+                    
+                    if (!UpdateStatus || Process.GetProcessesByName("explorer").Length == 0) //Wait for desktop and update status
                     {
                         Thread.Sleep(1000);
-
                         continue;
                     }
-
+                    
                     string realPath = Helper.PathHelper.GetRealPath();
 
                     setting = Helper.JsonHelper.JsonReader();
@@ -147,7 +150,16 @@ namespace Emse.Updater.Windows.Service
                         {
                             //Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
                             AppDir = realPath + "\\" + setting.ExeName + ".exe";
-                            ProcessExtensions.StartProcessAsCurrentUser(AppDir);
+
+                            try
+                            {
+                                ProcessExtensions.StartProcessAsCurrentUser(AppDir);
+                                LogHelper.WriteLog("Process has been started.");
+                            }
+                            catch (Exception ex)
+                            {
+                                LogHelper.WriteLog("Create Process As User failed: " + ex);
+                            }
                         }
                     }
 
@@ -222,6 +234,7 @@ namespace Emse.Updater.Windows.Service
                         if (!UpdateStatus || downloadFail)
                         {
                             ToSleep(setting);
+                            LogHelper.WriteLog("Download fail.");
                             continue;
                         }
 
@@ -243,6 +256,7 @@ namespace Emse.Updater.Windows.Service
                         setting.CurrentVersion = latestVersion.ToString();
                         Helper.JsonHelper.JsonWriter(setting);
                         LogHelper.WriteLog("Settings has been saved");
+
                         if (Directory.Exists(tempPath))
                         {
                             Directory.Delete(tempPath, true);
@@ -250,13 +264,21 @@ namespace Emse.Updater.Windows.Service
                         }
 
                         AppDir = realPath + "\\" + setting.ExeName + ".exe";
-                        ProcessExtensions.StartProcessAsCurrentUser(AppDir);
 
+                        try
+                        {
+                            ProcessExtensions.StartProcessAsCurrentUser(AppDir);
+                            LogHelper.WriteLog("Process has been started.");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogHelper.WriteLog("CreateProcessAsUser failed: " + ex);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Emse.Updater.Helper.LogHelper.WriteLog(ex.Message);
+                    LogHelper.WriteLog(ex.Message);
                 }
 
                 ToSleep(setting);
