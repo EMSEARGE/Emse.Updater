@@ -9,23 +9,34 @@ namespace Emse.Updater.Helper
 {
     public class RegistryHelper
     {
-        public static int GetValue(string path)
+        /// <summary>
+        /// return registry value from subkey
+        /// </summary>
+        /// <param name="subKey"></param>
+        /// <param name="keyName"></param>
+        /// <returns></returns>
+        public static int GetValue(string subKey, string keyName)
         {
-            RegistryKey softwareKey = Registry.LocalMachine.OpenSubKey(path, true);
+            RegistryKey softwareKey = Registry.LocalMachine.OpenSubKey(subKey, true);
 
             if (softwareKey != null)
             {
-                return  (int) softwareKey.GetValue("EnableLUA");
+                return  (int) softwareKey.GetValue(keyName);
             }
             else
             {
                 return -1;
             }
         }
-
-        public static void SetValue(string path, string arg, int value)
+        /// <summary>
+        /// set registry value to subkey
+        /// </summary>
+        /// <param name="subKey"></param>
+        /// <param name="keyName"></param>
+        /// <param name="value"></param>
+        public static void SetValue(string subKey, string keyName, int value)
         {
-            Registry.SetValue(path, arg, value);
+            Registry.SetValue(subKey, keyName, value);
         }
     }
 }
