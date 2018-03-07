@@ -111,6 +111,17 @@ namespace Emse.Updater.Windows.Service
 
             while (true)
             {
+                if (Process.GetProcessesByName("explorer").Length == 0) //Wait for desktop
+                {
+                    Thread.Sleep(1000);
+                    continue;
+                }
+
+                break;
+            }
+
+            while (true)
+            {
                 KillWerFaultProcesses();
 
                 try
@@ -122,7 +133,7 @@ namespace Emse.Updater.Windows.Service
                         WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
                     }
                     
-                    if (!UpdateStatus || Process.GetProcessesByName("explorer").Length == 0) //Wait for desktop and update status
+                    if (!UpdateStatus)
                     {
                         Thread.Sleep(1000);
                         continue;
