@@ -166,7 +166,7 @@ namespace Emse.Updater.Windows.Service
 
                             try
                             {
-                                ProcessExtensions.StartProcessAsCurrentUser(AppDir);
+                                Emse.Updater.Helper.ProcessExtensions.StartProcessAsCurrentUser(AppDir);
                                 LogHelper.WriteLog("Process has been started.");
                             }
                             catch (Exception ex)
@@ -251,6 +251,7 @@ namespace Emse.Updater.Windows.Service
                             continue;
                         }
 
+                        UserInterfaceHandler.StartUserInterfaceAsUser();
                         LogHelper.WriteLog(latestversionURL + " has been downloaded.");
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
                         LogHelper.WriteLog("File has been unzipped");
@@ -276,6 +277,7 @@ namespace Emse.Updater.Windows.Service
                             LogHelper.WriteLog(tempPath + " has been deleted.");
                         }
 
+                        UserInterfaceHandler.StopUserInterface();
                         AppDir = realPath + "\\" + setting.ExeName + ".exe";
 
                         try

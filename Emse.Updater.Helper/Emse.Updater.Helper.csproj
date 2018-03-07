@@ -48,9 +48,11 @@
     <Compile Include="ListHelper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="PathHelper.cs" />
+    <Compile Include="ProcessExtensions.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistryHelper.cs" />
+    <Compile Include="UserInterfaceHandler.cs" />
     <Compile Include="WindowsHelper.cs" />
     <Compile Include="VersionHelper.cs" />
     <Compile Include="WindowsServiceHelper.cs" />
