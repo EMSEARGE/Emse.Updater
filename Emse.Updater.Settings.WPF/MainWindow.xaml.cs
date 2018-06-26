@@ -115,6 +115,7 @@ namespace Emse.Updater.Settings.WPF
                 TextBoxPathText.Text = setting.Path;
                 TextBoxTempPathText.Text = setting.TempPath;
                 TextBoxExeNameText.Text = setting.ExeName;
+                TextBoxFilesToKeep.Text = setting.FilesToKeep;
             }));
         }
         private void ButtonKaydet_Click(object sender, RoutedEventArgs e)
@@ -145,7 +146,10 @@ namespace Emse.Updater.Settings.WPF
                     Path = TextBoxPathText.Text,
                     TempPath = TextBoxTempPathText.Text,
                     ExeName = TextBoxExeNameText.Text,
+                    FilesToKeep = TextBoxFilesToKeep.Text,
+
                     UpdateStatus = true
+
                 };
                 Helper.JsonHelper.JsonWriter(settings);
 
@@ -202,7 +206,7 @@ namespace Emse.Updater.Settings.WPF
                     sc.Start();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // ignored
             }

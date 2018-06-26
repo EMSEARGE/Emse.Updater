@@ -261,7 +261,8 @@ namespace Emse.Updater.Windows.Service
                         LogHelper.WriteLog(setting.ExeName + " Process killed.");
                         Thread.Sleep(3000);
                         System.IO.Directory.CreateDirectory(realPath);
-                        Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) });
+
+                        Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) }, SetFilesToKeep(setting));
                         LogHelper.WriteLog("Moving files from temp path to " + realPath);
 
                         Helper.PathHelper.CopyDir(tempForFilesWithRandom, realPath);
@@ -299,6 +300,35 @@ namespace Emse.Updater.Windows.Service
                 ToSleep(setting);
             }
         }
+
+        private static List<FileInfo> SetFilesToKeep(SettingDto setting)
+        {
+            LogHelper.WriteLog("filestoKeep:"+setting.FilesToKeep);
+
+            List<FileInfo> filesToKeep = null;
+            string[] fnsToKeep = setting.FilesToKeep.Split(';');
+
+            LogHelper.WriteLog(fnsToKeep.Length + " files found to keep");
+
+            foreach (var fnToKeep in fnsToKeep)
+            {
+                if (filesToKeep == null)
+                    filesToKeep = new List<FileInfo>();
+                try
+                {
+                    string lastSlash = setting.Path.EndsWith("\\") ? "" : "\\";
+                    filesToKeep.Add(new FileInfo(setting.Path+ lastSlash +fnToKeep));
+
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog("FilesToKeep failed:"+ fnToKeep +","+ ex.Message);
+
+                }
+            }
+            return filesToKeep;
+        }
+
         private void ToSleep(SettingDto setting)
         {
             int secondBetweenLoops = setting.SecondsBetweenLoop;

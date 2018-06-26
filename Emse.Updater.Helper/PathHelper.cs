@@ -23,12 +23,19 @@ namespace Emse.Updater.Helper
             return ReplacePath(Emse.Updater.Helper.JsonHelper.JsonReader().Path);
         }
 
-        public static void Empty(System.IO.DirectoryInfo directory, List<System.IO.DirectoryInfo> excludePathList = null)
+        public static void Empty(System.IO.DirectoryInfo directory, List<System.IO.DirectoryInfo> excludePathList = null, List<FileInfo> excludeFilesInRoot = null)
         {
             foreach (System.IO.FileInfo file in directory.GetFiles())
             {
                 try
                 {
+
+                    if (excludeFilesInRoot != null && excludeFilesInRoot.Any(x => x.Name == file.Name))
+                    {
+                        LogHelper.WriteLog(string.Format("{0} kept", file.Name));
+                        continue;
+                    }
+
                     file.Delete();
                 }
                 catch (Exception ex)
@@ -68,7 +75,7 @@ namespace Emse.Updater.Helper
 
                 // ADD Unique File Name Check to Below!!!!
                 string dest = Path.Combine(destFolder, name);
-                File.Copy(file, dest);
+                File.Copy(file, dest, true);
             }
 
             // Get dirs recursively and copy files

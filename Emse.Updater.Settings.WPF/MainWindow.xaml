@@ -8,40 +8,78 @@
         ResizeMode="NoResize"
         Title="Updater Settings" Height="525" Width="525" 
         Icon="./Resources/EmseQ_Settings.png">
-    <Grid Margin="0,0,0,-3">
-        <Grid HorizontalAlignment="Left" Margin="10,10,0,10" Width="497">
-            <Label x:Name="LabelSecondsBetweenLoop" Content="Seconds Between Loop:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="198" Height="26" FontSize="14" FontWeight="Bold"  Margin="10,211,0,0"/>
-            <Label x:Name="LabelCurrentVersion" Content="Current Version: " HorizontalAlignment="Left" Margin="268,211,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelPath" Content="Path:" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.26,-0.523" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <TextBox x:Name="TextBoxSecondsBetweenLoopText"  HorizontalAlignment="Left" Margin="10,242,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.08,0.459" Width="200" Height="26" FontSize="14" />
-            <TextBox x:Name="TextBoxCurrentVersionText"  HorizontalAlignment="Left" Margin="268,236,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.126,1.081" Width="200" Height="26" FontSize="14"/>
-            <Label x:Name="LabelDomain" Content="Domain:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelUrlZip" Content="UrlZip:" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelFileExtension" Content="FileExtension:" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="200" Height="25" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelTempPath" Content="TempPath:" HorizontalAlignment="Left" Margin="268,112,0,0" VerticalAlignment="Top" Width="200" Height="28" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelExeName" Content="ExeName:" HorizontalAlignment="Left" Margin="268,160,0,0" VerticalAlignment="Top" Width="200" Height="28" FontSize="14" FontWeight="Bold" />
-            <TextBox x:Name="TextBoxDomainText" HorizontalAlignment="Left" Height="25" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458"  RenderTransformOrigin="0.492,1.445" FontSize="14" />
-            <TextBox x:Name="TextBoxUrlZipText" HorizontalAlignment="Left" Height="25" Margin="10,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="14" />
-            <TextBox x:Name="TextBoxFileExtension" HorizontalAlignment="Left" Height="26" Margin="10,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14"  IsReadOnly="True"/>
-            <TextBox x:Name="TextBoxPathText" HorizontalAlignment="Left" Height="25" Margin="10,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <TextBox x:Name="TextBoxTempPathText" HorizontalAlignment="Left" Height="25" Margin="268,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <TextBox x:Name="TextBoxExeNameText" HorizontalAlignment="Left" Height="25" Margin="268,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" FontSize="14" />
-            <Button x:Name="ButtonKaydet" Content="SAVE" HorizontalAlignment="Left" Margin="268,279,0,0" VerticalAlignment="Top" Width="200" Click="ButtonKaydet_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-            <Button x:Name="ButtonServiceNetStart" Visibility="Hidden" Content="START" HorizontalAlignment="Left" Margin="268,393,0,0" VerticalAlignment="Top" Width="200" Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-            <Button x:Name="ButtonServiceNetStop" Visibility="Visible" Content="STOP" HorizontalAlignment="Left" Margin="268,393,0,0" VerticalAlignment="Top" Width="200" Click="ButtonStopService_Click" Height="33" Background="Red" Foreground="White"/>
-            <Button x:Name="ButtonRegisterService" Visibility="Visible" Content="INSTALL SERVICE" HorizontalAlignment="Left" Margin="268,436,0,0" VerticalAlignment="Top" Width="200" Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-            <Button x:Name="ButtonUnRegisterService" Visibility="Visible" Content="DELETE SERVICE" HorizontalAlignment="Left" Margin="268,436,0,0" VerticalAlignment="Top" Width="200" Click="ButtonUnRegisterService_Click" Height="33" Background="Red" Foreground="White"/>
-            <Label x:Name="LabelServiceName" Content="Service Name:" HorizontalAlignment="Left" Margin="10,326,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelServiceNameContent" Content="Emse Updater" HorizontalAlignment="Left" Margin="268,326,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Normal" />
-            <Label x:Name="LabelServiceStatus" Content="Service Status:" HorizontalAlignment="Left" Margin="10,357,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelServiceStatusContent" Content="" HorizontalAlignment="Left" Margin="268,357,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Normal" />
-            <Label x:Name="LabelServiceProcess" Content="Start/Stop Service:" HorizontalAlignment="Left" Margin="10,393,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelServiceRegister" Content="Install/Delete Service:" HorizontalAlignment="Left" Margin="8,438,0,0" VerticalAlignment="Top" Width="200" Height="31" FontSize="14" FontWeight="Bold" />
-            <Label x:Name="LabelCurrentUserContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,269,0,0" VerticalAlignment="Top" Width="155"/>
-            <Label x:Name="LabelCurrentUserRoleContent" Content="" HorizontalAlignment="Left" FontWeight="Bold" Margin="93,300,0,0" VerticalAlignment="Top" Width="155"/>
-            <Label x:Name="LabelCurrentUser" Content="User:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="LabelCurrentUserRole" Content="Invoke Level:" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top"/>
+
+    <StackPanel>
+        <Label x:Name="LabelDomain" Content="Domain:" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
+        <TextBox x:Name="TextBoxDomainText"  HorizontalAlignment="Stretch" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,0,0,0"  FontSize="14" />
+        <Label x:Name="LabelUrlZip" Content="UrlZip:" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="200" Height="26" FontSize="14" FontWeight="Bold" />
+        <TextBox x:Name="TextBoxUrlZipText" HorizontalAlignment="Stretch" Height="25"  TextWrapping="Wrap" VerticalAlignment="Top"  FontSize="14" />
+        <Label x:Name="LabelFilesToKeep" Content="Files to keep:" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="-0.26,-0.523"  Height="26" FontSize="14" FontWeight="Bold" />
+        <TextBox x:Name="TextBoxFilesToKeep"  HorizontalAlignment="Stretch"  VerticalAlignment="Top" RenderTransformOrigin="1.08,0.459" Height="26" FontSize="14" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <Label x:Name="LabelPath" Content="Path:" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="-0.26,-0.523" Width="200" Height="30" FontSize="14" FontWeight="Bold" />
+                <TextBox x:Name="TextBoxPathText" HorizontalAlignment="Stretch" Height="25" TextWrapping="Wrap" VerticalAlignment="Top"  FontSize="14" />
+                <Label x:Name="LabelFileExtension" Content="FileExtension:" HorizontalAlignment="Left"  VerticalAlignment="Top"  Height="30" FontSize="14" FontWeight="Bold" />
+                <TextBox x:Name="TextBoxFileExtension"  Height="26" TextWrapping="Wrap" VerticalAlignment="Top"  FontSize="14"  IsReadOnly="True"/>
+                <Label x:Name="LabelSecondsBetweenLoop" Content="Seconds Between Loop:" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="30" FontSize="14" FontWeight="Bold" />
+                <TextBox x:Name="TextBoxSecondsBetweenLoopText" VerticalAlignment="Top"  Height="26" FontSize="14" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelCurrentUser" Content="User:" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label x:Name="LabelCurrentUserContent" Content=""  FontWeight="Bold"  VerticalAlignment="Top" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelCurrentUserRole" Content="Invoke Level:" FontWeight="Bold" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                    <Label x:Name="LabelCurrentUserRoleContent" Content="" HorizontalAlignment="Left" FontWeight="Bold"  VerticalAlignment="Top"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelServiceName" Content="Service Name:" HorizontalAlignment="Left"  VerticalAlignment="Top"  Height="31" FontSize="14" FontWeight="Bold" />
+                    <Label x:Name="LabelServiceNameContent" Content="Emse Updater" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="31" FontSize="14" FontWeight="Normal" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LabelServiceStatus" Content="Service Status:" HorizontalAlignment="Left"  VerticalAlignment="Top"  Height="31" FontSize="14" FontWeight="Bold" />
+                    <Label x:Name="LabelServiceStatusContent" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top"  Height="31" FontSize="14" FontWeight="Normal" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <Label x:Name="LabelTempPath" Content="TempPath:" HorizontalAlignment="Left"  VerticalAlignment="Top"  Height="30" FontSize="14" FontWeight="Bold" />
+                <TextBox x:Name="TextBoxTempPathText"  Height="25" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" />
+                <Label x:Name="LabelExeName" Content="ExeName:" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="30" FontSize="14" FontWeight="Bold" />
+                <TextBox x:Name="TextBoxExeNameText"  Height="25"  TextWrapping="Wrap" VerticalAlignment="Top"  FontSize="14" />
+                <Label x:Name="LabelCurrentVersion" Content="Current Version: " HorizontalAlignment="left"  VerticalAlignment="Top"  Height="30" FontSize="14" FontWeight="Bold" />
+                <TextBox x:Name="TextBoxCurrentVersionText"   VerticalAlignment="Top"  Height="26" FontSize="14"/>
+
+                <Button x:Name="ButtonKaydet" Content="SAVE"   VerticalAlignment="Top"  Click="ButtonKaydet_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+                <Button x:Name="ButtonServiceNetStart" Visibility="Hidden" Content="START"  VerticalAlignment="Top"  Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+                <Button x:Name="ButtonServiceNetStop" Visibility="Visible" Content="STOP"   VerticalAlignment="Top"  Click="ButtonStopService_Click" Height="33" Background="Red" Foreground="White"/>
+                <Button x:Name="ButtonRegisterService" Visibility="Visible" Content="INSTALL SERVICE"   VerticalAlignment="Top"  Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+                <Button x:Name="ButtonUnRegisterService" Visibility="Visible" Content="DELETE SERVICE"   VerticalAlignment="Top"  Click="ButtonUnRegisterService_Click" Height="33" Background="Red" Foreground="White"/>
+
+            </StackPanel>
         </Grid>
 
-    </Grid>
+
+
+
+
+
+
+
+    </StackPanel>
+    <!--<Grid Margin="0,0,0,-3">
+        <Grid HorizontalAlignment="Left" Margin="10,10,0,10" Width="497">
+        </Grid>
+
+    </Grid>-->
 </Window>
