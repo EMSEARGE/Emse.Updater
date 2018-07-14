@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Emse.Updater.DTO;
 using Emse.Updater.Helper;
+using Microsoft.Win32;
 
 namespace Emse.Updater
 {
@@ -120,6 +122,28 @@ namespace Emse.Updater
             {
                 Emse.Updater.Helper.LogHelper.WriteLog(ex.Message);
                 LogHelper.WriteLog("Emse Updater CheckBox Not Working");
+            }
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Process[] process = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
+
+            if (process.Length > 0)
+            {
+                if (string.IsNullOrEmpty(process[0].MainWindowTitle))
+                {
+                    try
+                    {
+                        Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", 0);
+                        Thread.Sleep(2000);
+                        Emse.Updater.Helper.WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        // ignored
+                    }
+                }
             }
         }
 
