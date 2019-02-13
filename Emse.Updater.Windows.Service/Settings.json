@@ -4,11 +4,13 @@
   "Domain": "http://192.168.1.67:8080/version.txt",
   "UrlZip": "http://192.168.1.67:8080/{version}",
   "FileExtension": "zip",
-  "Path": "C:\\HS",
-  "TempPath": "C:\\EmseUpdater-Temp",
+  "Path": "C:\\Qorch",
+  "TempPath": "C:\\Qorch-Temp",
   "TempPathFile": null,
-  "ExeName": "EmseQ.Hardware.Service",
+  "ExeName": "Qorch.HardwareHost",
   "AppName": null,
   "UpdateStatus": true,
-  "FilesToKeep": "EmseQ.Hardware.Service.exe.config"
+  "FilesToKeep": "EmseQ.Hardware.Service.exe.config",
+  "WinSvc": true,
+  "ServiceName": "HWService"
 }

@@ -4,10 +4,10 @@
   "Domain": "http://176.9.0.247/Updater/version.txt",
   "UrlZip": "http://176.9.0.247/Updater/{version}",
   "FileExtension": "zip",
-  "Path": "{Desktop}\\HS",
-  "TempPath": "{Desktop}\\HS-Temp",
+  "Path": "{Desktop}\\Qorch",
+  "TempPath": "{Desktop}\\QorchTemp",
   "TempPathFile": null,
-  "ExeName": "EmseQ.Hardware.Service",
+  "ExeName": "Qorch.HardwareHost",
   "AppName": null,
   "UpdateStatus": true
 }
