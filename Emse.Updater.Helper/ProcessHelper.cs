@@ -29,7 +29,7 @@ namespace Emse.Updater.Helper
             foreach (Process process in processOfEmse)
             {
                 try
-                {                        
+                {
                     process.Kill();
                 }
                 catch (Exception ex)

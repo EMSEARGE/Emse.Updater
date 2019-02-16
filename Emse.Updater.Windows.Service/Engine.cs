@@ -8,7 +8,6 @@ using System.Threading;
 using Emse.Updater.DTO;
 using Emse.Updater.Helper;
 using System.IO.Compression;
-using System.ServiceProcess;
 
 namespace Emse.Updater.Windows.Service
 {
@@ -133,13 +132,13 @@ namespace Emse.Updater.Windows.Service
                         Thread.Sleep(2000);
                         WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
                     }
-
+                    
                     if (!UpdateStatus)
                     {
                         Thread.Sleep(1000);
                         continue;
                     }
-
+                    
                     string realPath = Helper.PathHelper.GetRealPath();
 
                     setting = Helper.JsonHelper.JsonReader();
@@ -149,12 +148,32 @@ namespace Emse.Updater.Windows.Service
                     if (processOfEmse.Length != 0)
                     {
                         Process mainProcess = processOfEmse[0];
-                        KillIfNotResponding(setting, mainProcess);
+
+                        if (!mainProcess.Responding)
+                        {
+                            LogHelper.WriteLog(setting.ExeName + " not responding.");
+                            Helper.ProcessHelper.KillProcess();
+                            LogHelper.WriteLog(setting.ExeName + " Process killed.");
+                        }
                     }
 
                     if (processOfEmse.Length == 0)
                     {
-                        StartEmseApp(setting, realPath);
+                        if (File.Exists(realPath + "\\" + setting.ExeName + ".exe"))
+                        {
+                            //Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
+                            AppDir = realPath + "\\" + setting.ExeName + ".exe";
+
+                            try
+                            {
+                                Emse.Updater.Helper.ProcessExtensions.StartProcessAsCurrentUser(AppDir);
+                                LogHelper.WriteLog("Process has been started.");
+                            }
+                            catch (Exception ex)
+                            {
+                                LogHelper.WriteLog("Create Process As User failed: " + ex);
+                            }
+                        }
                     }
 
                     LogHelper.WriteLog("Version.txt will be read.");
@@ -170,9 +189,60 @@ namespace Emse.Updater.Windows.Service
 
                     if (latestVersion != new Version(setting.CurrentVersion)) //yeni sürüm var
                     {
-                        string tempPath, tempForFilesWithRandom, tempPathForZipWithRandom, latestversionURL;
-                        bool downloadFail;
-                        DownloadNewVersion(setting, latestVersion, out tempPath, out tempForFilesWithRandom, out tempPathForZipWithRandom, out latestversionURL, out downloadFail);
+                        Guid randomGuid = Guid.NewGuid();
+                        string tempPath = Helper.PathHelper.GetTempPath();
+                        string tempForFilesWithRandom = tempPath + "\\" + randomGuid;
+                        string tempPathForZipWithRandom = tempPath + "\\" + randomGuid + "." + setting.FileExtension;
+
+                        if (Directory.Exists(tempPath))
+                        {
+                            try
+                            {
+                                Directory.Delete(tempPath, true);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogHelper.WriteLog(ex.Message);
+                            }
+                        }
+
+                        string latestversionURL = Helper.VersionHelper.GetVersionZipURL(latestVersion);
+
+                        Directory.CreateDirectory(tempPath);
+                        LogHelper.WriteLog("Temp folder has been created. " + tempPath);
+                        Directory.CreateDirectory(tempForFilesWithRandom);
+                        LogHelper.WriteLog("Temp with random folder has been created.");
+                        LogHelper.WriteLog(" Downloading " + setting.AppName + " , from url: " + latestversionURL);
+                        bool downloadFail = false;
+                        DownloadVersionZip(latestversionURL, tempPathForZipWithRandom);
+
+                        while (true)
+                        {
+                            if (!DownloadingVersionZip || !UpdateStatus)
+                            {
+                                Wc.CancelAsync();
+
+                                break;
+                            }
+
+                            if ((DateTime.Now - DownloadingVersionZipProgress.Item1).TotalMinutes > 10)
+                            {
+                                LogHelper.WriteLog("Downloading Timeout - 10 Minutes");
+                                downloadFail = true;
+                                break;
+                            }
+
+                            if (DownloadingVersionZipProgress.Item2 != 0 && DownloadingVersionZipProgress.Item2 != 0)
+                            {
+                                LogHelper.WriteLog("Downloading: " + ((DownloadingVersionZipProgress.Item3 * 100) / DownloadingVersionZipProgress.Item2) + "% - " + DownloadingVersionZipProgress.Item2 + " / " + DownloadingVersionZipProgress.Item3);
+                            }
+                            else
+                            {
+                                LogHelper.WriteLog("Getting ready to download version zip.");
+                            }
+
+                            Thread.Sleep(3000);
+                        }
 
                         if (!UpdateStatus || downloadFail)
                         {
@@ -181,10 +251,45 @@ namespace Emse.Updater.Windows.Service
                             continue;
                         }
 
-                        PrepNewVersion(setting, realPath, latestVersion, tempPath, tempForFilesWithRandom, tempPathForZipWithRandom, latestversionURL);
+                        UserInterfaceHandler.StartUserInterfaceAsUser();
+                        LogHelper.WriteLog(latestversionURL + " has been downloaded.");
+                        ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
+                        LogHelper.WriteLog("File has been unzipped");
+                        Helper.ProcessHelper.CloseProcess();
+                        Thread.Sleep(1000);
+                        Helper.ProcessHelper.KillProcess();
+                        LogHelper.WriteLog(setting.ExeName + " Process killed.");
+                        Thread.Sleep(3000);
+                        System.IO.Directory.CreateDirectory(realPath);
+
+                        Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) }, SetFilesToKeep(setting));
+                        LogHelper.WriteLog("Moving files from temp path to " + realPath);
+
+                        Helper.PathHelper.CopyDir(tempForFilesWithRandom, realPath);
+                        LogHelper.WriteLog("Copied to " + realPath);
+
+                        setting.CurrentVersion = latestVersion.ToString();
+                        Helper.JsonHelper.JsonWriter(setting);
+                        LogHelper.WriteLog("Settings has been saved");
+
+                        if (Directory.Exists(tempPath))
+                        {
+                            Directory.Delete(tempPath, true);
+                            LogHelper.WriteLog(tempPath + " has been deleted.");
+                        }
 
                         UserInterfaceHandler.StopUserInterface();
-                        StartEmseApp(setting, realPath);
+                        AppDir = realPath + "\\" + setting.ExeName + ".exe";
+
+                        try
+                        {
+                            ProcessExtensions.StartProcessAsCurrentUser(AppDir);
+                            LogHelper.WriteLog("Process has been started.");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogHelper.WriteLog("CreateProcessAsUser failed: " + ex);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -196,171 +301,9 @@ namespace Emse.Updater.Windows.Service
             }
         }
 
-        private static void PrepNewVersion(SettingDto setting, string realPath, Version latestVersion, string tempPath, string tempForFilesWithRandom, string tempPathForZipWithRandom, string latestversionURL)
-        {
-            UserInterfaceHandler.StartUserInterfaceAsUser();
-            LogHelper.WriteLog(latestversionURL + " has been downloaded.");
-            ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
-            LogHelper.WriteLog("File has been unzipped");
-            Helper.ProcessHelper.CloseProcess();
-            Thread.Sleep(1000);
-            StopEmseApp(setting);
-            LogHelper.WriteLog(setting.ExeName + " Process killed.");
-            Thread.Sleep(3000);
-            System.IO.Directory.CreateDirectory(realPath);
-
-            Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) }, SetFilesToKeep(setting));
-            LogHelper.WriteLog("Moving files from temp path to " + realPath);
-
-            Helper.PathHelper.CopyDir(tempForFilesWithRandom, realPath);
-            LogHelper.WriteLog("Copied to " + realPath);
-
-            setting.CurrentVersion = latestVersion.ToString();
-            Helper.JsonHelper.JsonWriter(setting);
-            LogHelper.WriteLog("Settings has been saved");
-
-            if (Directory.Exists(tempPath))
-            {
-                Directory.Delete(tempPath, true);
-                LogHelper.WriteLog(tempPath + " has been deleted.");
-            }
-        }
-
-        private static void StopEmseApp(SettingDto setting)
-        {
-            if (!string.IsNullOrEmpty(setting.ServiceName))
-            {
-                try
-                {
-                    GetServiceCtr().Stop();
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLog("Stop service failed: " + ex.Message);
-                }
-            }
-            else
-                Helper.ProcessHelper.KillProcess();
-        }
-
-        private void DownloadNewVersion(SettingDto setting, Version latestVersion, out string tempPath, out string tempForFilesWithRandom, out string tempPathForZipWithRandom, out string latestversionURL, out bool downloadFail)
-        {
-            Guid randomGuid = Guid.NewGuid();
-            tempPath = Helper.PathHelper.GetTempPath();
-            tempForFilesWithRandom = tempPath + "\\" + randomGuid;
-            tempPathForZipWithRandom = tempPath + "\\" + randomGuid + "." + setting.FileExtension;
-            if (Directory.Exists(tempPath))
-            {
-                try
-                {
-                    Directory.Delete(tempPath, true);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLog(ex.Message);
-                }
-            }
-
-            latestversionURL = Helper.VersionHelper.GetVersionZipURL(latestVersion);
-            Directory.CreateDirectory(tempPath);
-            LogHelper.WriteLog("Temp folder has been created. " + tempPath);
-            Directory.CreateDirectory(tempForFilesWithRandom);
-            LogHelper.WriteLog("Temp with random folder has been created.");
-            LogHelper.WriteLog(" Downloading " + setting.AppName + " , from url: " + latestversionURL);
-            downloadFail = false;
-            DownloadVersionZip(latestversionURL, tempPathForZipWithRandom);
-
-            while (true)
-            {
-                if (!DownloadingVersionZip || !UpdateStatus)
-                {
-                    Wc.CancelAsync();
-
-                    break;
-                }
-
-                if ((DateTime.Now - DownloadingVersionZipProgress.Item1).TotalMinutes > 10)
-                {
-                    LogHelper.WriteLog("Downloading Timeout - 10 Minutes");
-                    downloadFail = true;
-                    break;
-                }
-
-                if (DownloadingVersionZipProgress.Item2 != 0 && DownloadingVersionZipProgress.Item2 != 0)
-                {
-                    LogHelper.WriteLog("Downloading: " + ((DownloadingVersionZipProgress.Item3 * 100) / DownloadingVersionZipProgress.Item2) + "% - " + DownloadingVersionZipProgress.Item2 + " / " + DownloadingVersionZipProgress.Item3);
-                }
-                else
-                {
-                    LogHelper.WriteLog("Getting ready to download version zip.");
-                }
-
-                Thread.Sleep(3000);
-            }
-        }
-
-        private static ServiceController _sc;
-        public static ServiceController GetServiceCtr(SettingDto s = null)
-        {
-            if (_sc == null)
-            {
-                if (s == null)
-                    throw new Exception("settings argument must be specified");
-                _sc = new ServiceController(s.ServiceName);
-            }
-            return _sc;
-        }
-
-        private static void StartEmseApp(SettingDto setting, string realPath)
-        {
-            if (!string.IsNullOrEmpty(setting.ServiceName))
-            {
-                if (GetServiceCtr(setting).Status == ServiceControllerStatus.Stopped)
-                {
-                    try
-                    {
-                        GetServiceCtr().Start();
-                        LogHelper.WriteLog("WinService has been started.");
-                    }
-                    catch (Exception ex)
-                    {
-                        LogHelper.WriteLog("WinService start failed: " + ex);                        
-                    }
-                }
-            }
-            else
-            {
-                AppDir = realPath + "\\" + setting.ExeName + ".exe";
-                if (File.Exists(AppDir))
-                {
-                    try
-                    {
-                        Emse.Updater.Helper.ProcessExtensions.StartProcessAsCurrentUser(AppDir);
-                        LogHelper.WriteLog("Process has been started.");
-                    }
-                    catch (Exception ex)
-                    {
-                        LogHelper.WriteLog("Create Process As User failed: " + ex);
-                    }
-                }
-            }
-        }
-
-        private static void KillIfNotResponding(SettingDto setting, Process mainProcess)
-        {
-            if (!string.IsNullOrEmpty(setting.ServiceName))
-                return;
-            if (!mainProcess.Responding)
-            {
-                LogHelper.WriteLog(setting.ExeName + " not responding.");
-                Helper.ProcessHelper.KillProcess();
-                LogHelper.WriteLog(setting.ExeName + " Process killed.");
-            }
-        }
-
         private static List<FileInfo> SetFilesToKeep(SettingDto setting)
         {
-            LogHelper.WriteLog("filestoKeep:" + setting.FilesToKeep);
+            LogHelper.WriteLog("filestoKeep:"+setting.FilesToKeep);
 
             List<FileInfo> filesToKeep = null;
             string[] fnsToKeep = setting.FilesToKeep.Split(';');
@@ -374,12 +317,12 @@ namespace Emse.Updater.Windows.Service
                 try
                 {
                     string lastSlash = setting.Path.EndsWith("\\") ? "" : "\\";
-                    filesToKeep.Add(new FileInfo(setting.Path + lastSlash + fnToKeep));
+                    filesToKeep.Add(new FileInfo(setting.Path+ lastSlash +fnToKeep));
 
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.WriteLog("FilesToKeep failed:" + fnToKeep + "," + ex.Message);
+                    LogHelper.WriteLog("FilesToKeep failed:"+ fnToKeep +","+ ex.Message);
 
                 }
             }

@@ -147,8 +147,9 @@ namespace Emse.Updater.Settings.WPF
                     TempPath = TextBoxTempPathText.Text,
                     ExeName = TextBoxExeNameText.Text,
                     FilesToKeep = TextBoxFilesToKeep.Text,
-                    UpdateStatus = true,
-                    ServiceName = TextBoxServiceName.Text
+
+                    UpdateStatus = true
+
                 };
                 Helper.JsonHelper.JsonWriter(settings);
 

@@ -14,6 +14,5 @@
         public string AppName { get; set; }
         public bool UpdateStatus { get; set; }
         public string FilesToKeep { get; set; }
-        public string ServiceName { get; set; }
     }
 }
