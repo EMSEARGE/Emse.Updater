@@ -116,6 +116,7 @@ namespace Emse.Updater.Settings.WPF
                 TextBoxTempPathText.Text = setting.TempPath;
                 TextBoxExeNameText.Text = setting.ExeName;
                 TextBoxFilesToKeep.Text = setting.FilesToKeep;
+                cbSoftClose.IsChecked = setting.SoftClose;
             }));
         }
         private void ButtonKaydet_Click(object sender, RoutedEventArgs e)
@@ -147,6 +148,7 @@ namespace Emse.Updater.Settings.WPF
                     TempPath = TextBoxTempPathText.Text,
                     ExeName = TextBoxExeNameText.Text,
                     FilesToKeep = TextBoxFilesToKeep.Text,
+                    SoftClose = cbSoftClose.IsChecked != null ? cbSoftClose.IsChecked.Value : false,
 
                     UpdateStatus = true
 
@@ -248,8 +250,8 @@ namespace Emse.Updater.Settings.WPF
 
             SecurityIdentifier localAdminGroupSid = new SecurityIdentifier(
             WellKnownSidType.BuiltinAdministratorsSid, null);
-            return  windowsIdentity.Groups.Select(g => (SecurityIdentifier)g.Translate(typeof(SecurityIdentifier))).Any(s => s == localAdminGroupSid);
-        } 
+            return windowsIdentity.Groups.Select(g => (SecurityIdentifier)g.Translate(typeof(SecurityIdentifier))).Any(s => s == localAdminGroupSid);
+        }
         private void CreateShortcut()
         {
             object shDesktop = (object)"Desktop";

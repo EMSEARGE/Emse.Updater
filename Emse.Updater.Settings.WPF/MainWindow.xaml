@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Emse.Updater.Settings.WPF"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Updater Settings" Height="525" Width="525" 
+        Title="Updater Settings" Height="545" Width="525" 
         Icon="./Resources/EmseQ_Settings.png">
 
     <StackPanel>
@@ -59,6 +59,8 @@
                 <TextBox x:Name="TextBoxExeNameText"  Height="25"  TextWrapping="Wrap" VerticalAlignment="Top"  FontSize="14" />
                 <Label x:Name="LabelCurrentVersion" Content="Current Version: " HorizontalAlignment="left"  VerticalAlignment="Top"  Height="30" FontSize="14" FontWeight="Bold" />
                 <TextBox x:Name="TextBoxCurrentVersionText"   VerticalAlignment="Top"  Height="26" FontSize="14"/>
+
+                <CheckBox x:Name="cbSoftClose" Content="softClose"  VerticalAlignment="Top"  Height="26" FontSize="14"/>
 
                 <Button x:Name="ButtonKaydet" Content="SAVE"   VerticalAlignment="Top"  Click="ButtonKaydet_Click" Height="33" Background="ForestGreen" Foreground="White"/>
                 <Button x:Name="ButtonServiceNetStart" Visibility="Hidden" Content="START"  VerticalAlignment="Top"  Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
