@@ -255,11 +255,12 @@ namespace Emse.Updater.Windows.Service
                         LogHelper.WriteLog(latestversionURL + " has been downloaded.");
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
                         LogHelper.WriteLog("File has been unzipped");
-                        Helper.ProcessHelper.CloseProcess();
-                        Thread.Sleep(1000);
-                        Helper.ProcessHelper.KillProcess();
-                        LogHelper.WriteLog(setting.ExeName + " Process killed.");
-                        Thread.Sleep(3000);
+                        Helper.ProcessHelper.SoftClose(realPath, setting.ExeName);
+                        //Helper.ProcessHelper.CloseProcess();
+                        //Thread.Sleep(1000);
+                        //Helper.ProcessHelper.KillProcess();
+                        //LogHelper.WriteLog(setting.ExeName + " Process killed.");
+                        //Thread.Sleep(3000);
                         System.IO.Directory.CreateDirectory(realPath);
 
                         Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) }, SetFilesToKeep(setting));
