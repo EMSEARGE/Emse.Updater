@@ -8,6 +8,7 @@ using System.Windows;
 using Emse.Updater.DTO;
 using Emse.Updater.Helper;
 using IWshRuntimeLibrary;
+using Microsoft.Win32;
 
 namespace Emse.Updater.Settings.WPF
 {
@@ -263,6 +264,20 @@ namespace Emse.Updater.Settings.WPF
             //shortcut.TargetPath = @"C:\Emse.Updater\Emse.Updater.Settings.exe";
             shortcut.TargetPath = System.AppDomain.CurrentDomain.BaseDirectory + PathHelper.CurrentExeLocation();
             shortcut.Save();
+        }
+
+        private void ButtonRegisterToStartup_Click(object sender, RoutedEventArgs e)
+        {
+            string app = AppDomain.CurrentDomain.BaseDirectory + "Emse.Updater.Windows.Service.exe";
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+            reg.SetValue("HwHost", app);
+        }
+
+        private void ButtonNetStart_Click(object sender, RoutedEventArgs e)
+        {
+            string app = AppDomain.CurrentDomain.BaseDirectory + "Emse.Updater.Windows.Service.exe";
+            ProcessExtensions.StartProcessAsCurrentUser(app);
+
         }
     }
 }

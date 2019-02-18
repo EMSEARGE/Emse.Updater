@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Emse.Updater.Console
+namespace Emse.Updater.Windows.Service
 {
     public class LoggerAdapter
     {
@@ -81,12 +81,6 @@ namespace Emse.Updater.Console
 
             logger.Log(li);            
         }
-
-        public void Error(Exception ex, string ctx)
-        {
-            logger.Error(ex, ctx);
-        }
-
 
         private static Tuple<List<string>, string> GetErrorsFromException(Exception ex, List<string> errs = null, string errMsg = null)
         {

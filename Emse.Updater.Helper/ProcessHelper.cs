@@ -88,5 +88,22 @@ namespace Emse.Updater.Helper
             }
             return true;
         }
+
+        public static void KillWerFaultProcesses()
+        {
+            Process[] werFaultProcessList = Process.GetProcessesByName("WerFault");
+            foreach (Process werFaultProcess in werFaultProcessList)
+            {
+                try
+                {
+                    werFaultProcess.Kill();
+                    LogHelper.WriteLog("WerFault killed.");
+                }
+                catch (Exception ex)
+                {
+                    Emse.Updater.Helper.LogHelper.WriteLog("KillWerFaultProcesses: " + ex.Message);
+                }
+            }
+        }
     }
 }

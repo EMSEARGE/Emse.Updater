@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoggerAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +62,16 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Emse.Updater.DTO\Emse.Updater.DTO.csproj">
+      <Project>{2b5bfe52-62a5-46db-986d-7fbae661f75d}</Project>
+      <Name>Emse.Updater.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Emse.Updater.Helper\Emse.Updater.Helper.csproj">
+      <Project>{44bf9f89-b1ca-49b2-9f4b-37dbc51205b9}</Project>
+      <Name>Emse.Updater.Helper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,12 +30,12 @@ namespace Emse.Updater.Windows.Service
             try
             {
                 Exception e = (Exception)args.ExceptionObject;
-                LogHelper.WriteLog("Exception - GlobalExceptionHandler: " + e.Message);
-                LogHelper.WriteLog("Runtime terminating:" + args.IsTerminating);
+                LoggerAdapter.Instance.Debug("Exception - GlobalExceptionHandler: " + e.Message);
+                LoggerAdapter.Instance.Debug("Runtime terminating:" + args.IsTerminating);
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog("Exception - GlobalExceptionHandler - " + ex.Message);
+                LoggerAdapter.Instance.Debug("Exception - GlobalExceptionHandler - " + ex.Message);
             }
         }
         private void DownloadVersionZip(string latestversionURL, string tempPathForZipWithRandom)
@@ -50,7 +50,7 @@ namespace Emse.Updater.Windows.Service
             }
             catch (Exception ex)
             {
-                Emse.Updater.Helper.LogHelper.WriteLog(ex.Message);
+                LoggerAdapter.Instance.Debug(ex.Message);
                 DownloadingVersionZip = false;
             }
         }
@@ -88,11 +88,11 @@ namespace Emse.Updater.Windows.Service
                 try
                 {
                     werFaultProcess.Kill();
-                    LogHelper.WriteLog("WerFault killed.");
+                    LoggerAdapter.Instance.Debug("WerFault killed.");
                 }
                 catch (Exception ex)
                 {
-                    Emse.Updater.Helper.LogHelper.WriteLog("KillWerFaultProcesses: " + ex.Message);
+                    LoggerAdapter.Instance.Debug("KillWerFaultProcesses: " + ex.Message);
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace Emse.Updater.Windows.Service
             }
             catch (Exception ex)
             {
-                LogHelper.WriteLog(ex.Message);
+                LoggerAdapter.Instance.Debug(ex.Message);
             }
 
             while (true)
@@ -142,7 +142,7 @@ namespace Emse.Updater.Windows.Service
                     string realPath = Helper.PathHelper.GetRealPath();
 
                     setting = Helper.JsonHelper.JsonReader();
-                    LogHelper.WriteLog("JSON file has been read");
+                    LoggerAdapter.Instance.Debug("JSON file has been read");
 
                     Process[] processOfEmse = Process.GetProcessesByName(setting.ExeName);
                     if (processOfEmse.Length != 0)
@@ -151,9 +151,9 @@ namespace Emse.Updater.Windows.Service
 
                         if (!mainProcess.Responding)
                         {
-                            LogHelper.WriteLog(setting.ExeName + " not responding.");
+                            LoggerAdapter.Instance.Debug(setting.ExeName + " not responding.");
                             Helper.ProcessHelper.KillProcess();
-                            LogHelper.WriteLog(setting.ExeName + " Process killed.");
+                            LoggerAdapter.Instance.Debug(setting.ExeName + " Process killed.");
                         }
                     }
 
@@ -167,21 +167,21 @@ namespace Emse.Updater.Windows.Service
                             try
                             {
                                 Emse.Updater.Helper.ProcessExtensions.StartProcessAsCurrentUser(AppDir);
-                                LogHelper.WriteLog("Process has been started.");
+                                LoggerAdapter.Instance.Debug("Process has been started.");
                             }
                             catch (Exception ex)
                             {
-                                LogHelper.WriteLog("Create Process As User failed: " + ex);
+                                LoggerAdapter.Instance.Debug("Create Process As User failed: " + ex);
                             }
                         }
                     }
 
-                    LogHelper.WriteLog("Version.txt will be read.");
+                    LoggerAdapter.Instance.Debug("Version.txt will be read.");
                     Version latestVersion = Helper.VersionHelper.GetLatestVersion();
 
                     if (latestVersion == null)
                     {
-                        LogHelper.WriteLog("Version.txt Read Timeout - 10 Seconds");
+                        LoggerAdapter.Instance.Debug("Version.txt Read Timeout - 10 Seconds");
 
                         ToSleep(setting);
                         continue;
@@ -202,17 +202,17 @@ namespace Emse.Updater.Windows.Service
                             }
                             catch (Exception ex)
                             {
-                                LogHelper.WriteLog(ex.Message);
+                                LoggerAdapter.Instance.Debug(ex.Message);
                             }
                         }
 
                         string latestversionURL = Helper.VersionHelper.GetVersionZipURL(latestVersion);
 
                         Directory.CreateDirectory(tempPath);
-                        LogHelper.WriteLog("Temp folder has been created. " + tempPath);
+                        LoggerAdapter.Instance.Debug("Temp folder has been created. " + tempPath);
                         Directory.CreateDirectory(tempForFilesWithRandom);
-                        LogHelper.WriteLog("Temp with random folder has been created.");
-                        LogHelper.WriteLog(" Downloading " + setting.AppName + " , from url: " + latestversionURL);
+                        LoggerAdapter.Instance.Debug("Temp with random folder has been created.");
+                        LoggerAdapter.Instance.Debug(" Downloading " + setting.AppName + " , from url: " + latestversionURL);
                         bool downloadFail = false;
                         DownloadVersionZip(latestversionURL, tempPathForZipWithRandom);
 
@@ -227,18 +227,18 @@ namespace Emse.Updater.Windows.Service
 
                             if ((DateTime.Now - DownloadingVersionZipProgress.Item1).TotalMinutes > 10)
                             {
-                                LogHelper.WriteLog("Downloading Timeout - 10 Minutes");
+                                LoggerAdapter.Instance.Debug("Downloading Timeout - 10 Minutes");
                                 downloadFail = true;
                                 break;
                             }
 
                             if (DownloadingVersionZipProgress.Item2 != 0 && DownloadingVersionZipProgress.Item2 != 0)
                             {
-                                LogHelper.WriteLog("Downloading: " + ((DownloadingVersionZipProgress.Item3 * 100) / DownloadingVersionZipProgress.Item2) + "% - " + DownloadingVersionZipProgress.Item2 + " / " + DownloadingVersionZipProgress.Item3);
+                                LoggerAdapter.Instance.Debug("Downloading: " + ((DownloadingVersionZipProgress.Item3 * 100) / DownloadingVersionZipProgress.Item2) + "% - " + DownloadingVersionZipProgress.Item2 + " / " + DownloadingVersionZipProgress.Item3);
                             }
                             else
                             {
-                                LogHelper.WriteLog("Getting ready to download version zip.");
+                                LoggerAdapter.Instance.Debug("Getting ready to download version zip.");
                             }
 
                             Thread.Sleep(3000);
@@ -247,43 +247,46 @@ namespace Emse.Updater.Windows.Service
                         if (!UpdateStatus || downloadFail)
                         {
                             ToSleep(setting);
-                            LogHelper.WriteLog("Download fail.");
+                            LoggerAdapter.Instance.Debug("Download fail.");
                             continue;
                         }
 
                         UserInterfaceHandler.StartUserInterfaceAsUser();
-                        LogHelper.WriteLog(latestversionURL + " has been downloaded.");
+                        LoggerAdapter.Instance.Debug(latestversionURL + " has been downloaded.");
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
-                        LogHelper.WriteLog("File has been unzipped");
+                        LoggerAdapter.Instance.Debug("File has been unzipped");
                         if (setting.SoftClose)
                         {
-                            Helper.ProcessHelper.SoftClose(realPath, setting.ExeName);
-                            LogHelper.WriteLog(setting.ExeName + " soft closed.");
+                            Helper.ProcessHelper.CloseProcess();
+                            Thread.Sleep(1000);
+
+                            //Helper.ProcessHelper.SoftClose(realPath, setting.ExeName);
+                            //LoggerAdapter.Instance.Debug(setting.ExeName + " soft closed.");
                         }
                         else
                         {
                             Helper.ProcessHelper.CloseProcess();
                             Thread.Sleep(1000);
                             Helper.ProcessHelper.KillProcess();
-                            LogHelper.WriteLog(setting.ExeName + " Process killed.");
+                            LoggerAdapter.Instance.Debug(setting.ExeName + " Process killed.");
                             Thread.Sleep(3000);
                         }
                         System.IO.Directory.CreateDirectory(realPath);
 
                         Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) }, SetFilesToKeep(setting));
-                        LogHelper.WriteLog("Moving files from temp path to " + realPath);
+                        LoggerAdapter.Instance.Debug("Moving files from temp path to " + realPath);
 
                         Helper.PathHelper.CopyDir(tempForFilesWithRandom, realPath);
-                        LogHelper.WriteLog("Copied to " + realPath);
+                        LoggerAdapter.Instance.Debug("Copied to " + realPath);
 
                         setting.CurrentVersion = latestVersion.ToString();
                         Helper.JsonHelper.JsonWriter(setting);
-                        LogHelper.WriteLog("Settings has been saved");
+                        LoggerAdapter.Instance.Debug("Settings has been saved");
 
                         if (Directory.Exists(tempPath))
                         {
                             Directory.Delete(tempPath, true);
-                            LogHelper.WriteLog(tempPath + " has been deleted.");
+                            LoggerAdapter.Instance.Debug(tempPath + " has been deleted.");
                         }
 
                         UserInterfaceHandler.StopUserInterface();
@@ -292,31 +295,43 @@ namespace Emse.Updater.Windows.Service
                         try
                         {
                             ProcessExtensions.StartProcessAsCurrentUser(AppDir);
-                            LogHelper.WriteLog("Process has been started.");
+                            LoggerAdapter.Instance.Debug("Process has been started.");
                         }
                         catch (Exception ex)
                         {
-                            LogHelper.WriteLog("CreateProcessAsUser failed: " + ex);
+                            LoggerAdapter.Instance.Debug("CreateProcessAsUser failed: " + ex);
                         }
+
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.WriteLog(ex.Message);
+                    LoggerAdapter.Instance.Debug(ex.Message);
                 }
 
                 ToSleep(setting);
+                ClearConsole();
+            }
+        }
+
+        DateTime clearTime = DateTime.Now;
+        private void ClearConsole()
+        {
+            if (DateTime.Now.Subtract(clearTime) > TimeSpan.FromMinutes(30))
+            {
+                Console.Clear();
+                clearTime = DateTime.Now;
             }
         }
 
         private static List<FileInfo> SetFilesToKeep(SettingDto setting)
         {
-            LogHelper.WriteLog("filestoKeep:"+setting.FilesToKeep);
+            LoggerAdapter.Instance.Debug("filestoKeep:"+setting.FilesToKeep);
 
             List<FileInfo> filesToKeep = null;
             string[] fnsToKeep = setting.FilesToKeep.Split(';');
 
-            LogHelper.WriteLog(fnsToKeep.Length + " files found to keep");
+            LoggerAdapter.Instance.Debug(fnsToKeep.Length + " files found to keep");
 
             foreach (var fnToKeep in fnsToKeep)
             {
@@ -330,7 +345,7 @@ namespace Emse.Updater.Windows.Service
                 }
                 catch (Exception ex)
                 {
-                    LogHelper.WriteLog("FilesToKeep failed:"+ fnToKeep +","+ ex.Message);
+                    LoggerAdapter.Instance.Debug("FilesToKeep failed:"+ fnToKeep +","+ ex.Message);
 
                 }
             }

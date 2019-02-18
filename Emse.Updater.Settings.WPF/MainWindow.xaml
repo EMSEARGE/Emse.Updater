@@ -63,9 +63,17 @@
                 <CheckBox x:Name="cbSoftClose" Content="softClose"  VerticalAlignment="Top"  Height="26" FontSize="14"/>
 
                 <Button x:Name="ButtonKaydet" Content="SAVE"   VerticalAlignment="Top"  Click="ButtonKaydet_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-                <Button x:Name="ButtonServiceNetStart" Visibility="Hidden" Content="START"  VerticalAlignment="Top"  Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+                <DockPanel>
+                    <Button x:Name="ButtonServiceNetStart" Visibility="Hidden" Content="START"  VerticalAlignment="Top"  Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+                    <Button x:Name="ButtonNetStart"  Content="START"  VerticalAlignment="Top"  Height="33" Background="ForestGreen" Foreground="White" Click="ButtonNetStart_Click"/>
+                </DockPanel>
+
                 <Button x:Name="ButtonServiceNetStop" Visibility="Visible" Content="STOP"   VerticalAlignment="Top"  Click="ButtonStopService_Click" Height="33" Background="Red" Foreground="White"/>
-                <Button x:Name="ButtonRegisterService" Visibility="Visible" Content="INSTALL SERVICE"   VerticalAlignment="Top"  Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+
+                <DockPanel>
+                    <Button Margin="0,0,5,0" x:Name="ButtonRegisterService" Visibility="Visible" Content="INSTALL SERVICE"   VerticalAlignment="Top"  Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+                    <Button x:Name="ButtonRegisterToStartup" Visibility="Visible" Content="Register For Startup"   VerticalAlignment="Top"  Height="33" Background="ForestGreen" Foreground="White" Click="ButtonRegisterToStartup_Click"/>
+                </DockPanel>
                 <Button x:Name="ButtonUnRegisterService" Visibility="Visible" Content="DELETE SERVICE"   VerticalAlignment="Top"  Click="ButtonUnRegisterService_Click" Height="33" Background="Red" Foreground="White"/>
 
             </StackPanel>
