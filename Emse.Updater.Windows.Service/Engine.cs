@@ -256,10 +256,12 @@ namespace Emse.Updater.Windows.Service
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
                         LogHelper.WriteLog("File has been unzipped");
                         Helper.ProcessHelper.CloseProcess();
+                        LogHelper.WriteLog(setting.ExeName + " Process closed.");
+
                         Thread.Sleep(1000);
                         Helper.ProcessHelper.KillProcess();
                         LogHelper.WriteLog(setting.ExeName + " Process killed.");
-                        Thread.Sleep(3000);
+                        Thread.Sleep(5000);
                         System.IO.Directory.CreateDirectory(realPath);
 
                         Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) }, SetFilesToKeep(setting));
