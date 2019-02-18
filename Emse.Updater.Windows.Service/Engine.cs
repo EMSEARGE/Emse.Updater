@@ -114,6 +114,7 @@ namespace Emse.Updater.Windows.Service
                 if (Process.GetProcessesByName("explorer").Length == 0) //Wait for desktop
                 {
                     Thread.Sleep(1000);
+                    LoggerAdapter.Instance.Debug("Waiting for explorer");
                     continue;
                 }
 
@@ -255,7 +256,7 @@ namespace Emse.Updater.Windows.Service
                         LoggerAdapter.Instance.Debug(latestversionURL + " has been downloaded.");
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
                         LoggerAdapter.Instance.Debug("File has been unzipped");
-                        if (setting.SoftClose)
+                        if (setting.ConsoleMode)
                         {
                             Helper.ProcessHelper.CloseProcess();
                             Thread.Sleep(1000);

@@ -14,6 +14,6 @@
         public string AppName { get; set; }
         public bool UpdateStatus { get; set; }
         public string FilesToKeep { get; set; }
-        public bool SoftClose { get; set; }
+        public bool ConsoleMode { get; set; }
     }
 }

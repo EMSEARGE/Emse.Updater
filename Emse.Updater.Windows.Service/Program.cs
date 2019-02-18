@@ -23,7 +23,7 @@ namespace Emse.Updater.Windows.Service
         }
         private static void Start(string[] args)
         {
-            Helper.LogHelper.WriteLog("Service Started!");
+            LoggerAdapter.Instance.Debug("Started");
             Task.Factory.StartNew(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
@@ -34,13 +34,12 @@ namespace Emse.Updater.Windows.Service
 
         protected static void Go()
         {
-            Helper.LogHelper.WriteLog("Go!");
+            LoggerAdapter.Instance.Debug("Go!");
             Engine.Execute();
         }
         protected override void OnStart(string[] args)
         {
-            //if windows service
-            Helper.LogHelper.WriteLog("Service on start");
+            LoggerAdapter.Instance.Debug("Service on start");
             Program.Start(args);
             base.OnStart(args);
         }

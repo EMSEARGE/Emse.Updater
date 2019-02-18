@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Emse.Updater.Settings.WPF"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Updater Settings" Height="545" Width="525" 
+        Title="Updater Settings" Height="585" Width="525" 
         Icon="./Resources/EmseQ_Settings.png">
 
     <StackPanel>
@@ -60,23 +60,42 @@
                 <Label x:Name="LabelCurrentVersion" Content="Current Version: " HorizontalAlignment="left"  VerticalAlignment="Top"  Height="30" FontSize="14" FontWeight="Bold" />
                 <TextBox x:Name="TextBoxCurrentVersionText"   VerticalAlignment="Top"  Height="26" FontSize="14"/>
 
-                <CheckBox x:Name="cbSoftClose" Content="softClose"  VerticalAlignment="Top"  Height="26" FontSize="14"/>
-
                 <Button x:Name="ButtonKaydet" Content="SAVE"   VerticalAlignment="Top"  Click="ButtonKaydet_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-                <DockPanel>
-                    <Button x:Name="ButtonServiceNetStart" Visibility="Hidden" Content="START"  VerticalAlignment="Top"  Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-                    <Button x:Name="ButtonNetStart"  Content="START"  VerticalAlignment="Top"  Height="33" Background="ForestGreen" Foreground="White" Click="ButtonNetStart_Click"/>
-                </DockPanel>
 
-                <Button x:Name="ButtonServiceNetStop" Visibility="Visible" Content="STOP"   VerticalAlignment="Top"  Click="ButtonStopService_Click" Height="33" Background="Red" Foreground="White"/>
 
-                <DockPanel>
-                    <Button Margin="0,0,5,0" x:Name="ButtonRegisterService" Visibility="Visible" Content="INSTALL SERVICE"   VerticalAlignment="Top"  Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
-                    <Button x:Name="ButtonRegisterToStartup" Visibility="Visible" Content="Register For Startup"   VerticalAlignment="Top"  Height="33" Background="ForestGreen" Foreground="White" Click="ButtonRegisterToStartup_Click"/>
-                </DockPanel>
-                <Button x:Name="ButtonUnRegisterService" Visibility="Visible" Content="DELETE SERVICE"   VerticalAlignment="Top"  Click="ButtonUnRegisterService_Click" Height="33" Background="Red" Foreground="White"/>
+                <CheckBox x:Name="cbConsoleMode" Content="ConsoleMode"  VerticalAlignment="Top"  Height="30" FontSize="14" Checked="cbConsoleMode_Checked" Unchecked="cbConsoleMode_Unchecked"/>
 
+
+                <TabControl>
+                    <TabItem Header="ServiceMode" x:Name="tabServiceMode">
+
+                        <StackPanel x:Name="buttonsServiceMode" Grid.Column="1">
+
+                            <Button x:Name="ButtonServiceNetStart" Visibility="Visible" Content="START"  VerticalAlignment="Top"  Click="ButtonStartService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+
+                            <Button x:Name="ButtonServiceNetStop" Visibility="Visible" Content="STOP"   VerticalAlignment="Top"  Click="ButtonStopService_Click" Height="33" Background="Red" Foreground="White"/>
+
+                            <Button Margin="0,0,5,0" x:Name="ButtonRegisterService" Visibility="Hidden" Content="INSTALL SERVICE"   VerticalAlignment="Top"  Click="ButtonRegisterService_Click" Height="33" Background="ForestGreen" Foreground="White"/>
+                            <Button x:Name="ButtonUnRegisterService" Visibility="Visible" Content="DELETE SERVICE"   VerticalAlignment="Top"  Click="ButtonUnRegisterService_Click" Height="33" Background="Red" Foreground="White"/>
+
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="ConsoleMode" x:Name="tabConsoleMode">
+                        <StackPanel x:Name="buttonsConsoleMode" Visibility="Hidden" Grid.Column="1">
+
+                            <Button x:Name="ButtonNetStart"  Content="START"  VerticalAlignment="Top"  Height="33" Background="ForestGreen" Foreground="White" Click="ButtonNetStart_Click"/>
+                            <Button x:Name="ButtonRegisterToStartup" Visibility="Visible" Content="Register For Startup"   VerticalAlignment="Top"  Height="33" Background="ForestGreen" Foreground="White" Click="ButtonRegisterToStartup_Click"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+               
+
+               
+                
             </StackPanel>
+                
+            
+
         </Grid>
 
 

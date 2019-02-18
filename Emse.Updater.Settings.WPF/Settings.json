@@ -9,5 +9,6 @@
   "TempPathFile": null,
   "ExeName": "EmseQ.Hardware.Service",
   "AppName": null,
-  "UpdateStatus": true
+  "UpdateStatus": true,
+  "ConsoleMode": true
 }

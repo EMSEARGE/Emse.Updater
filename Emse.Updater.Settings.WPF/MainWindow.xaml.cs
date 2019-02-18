@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Emse.Updater.DTO;
 using Emse.Updater.Helper;
 using IWshRuntimeLibrary;
@@ -34,6 +36,14 @@ namespace Emse.Updater.Settings.WPF
                 CheckWindowsService();
             });
         }
+
+        public bool ConsoleMode
+        {
+            get
+            {
+                return cbConsoleMode.IsChecked == null ? false : cbConsoleMode.IsChecked.Value;
+            }
+        }
         private void CheckWindowsService()
         {
             while (true)
@@ -45,7 +55,7 @@ namespace Emse.Updater.Settings.WPF
                 {
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        ButtonUnRegisterService.Visibility = Visibility.Visible;
+                        ShowControl(ButtonUnRegisterService);
                         ButtonRegisterService.Visibility = Visibility.Hidden;
                     }));
                     switch (sc.Status)
@@ -55,7 +65,7 @@ namespace Emse.Updater.Settings.WPF
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 LabelServiceStatusContent.Content = "Running";
-                                ButtonServiceNetStop.Visibility = Visibility.Visible;
+                                ShowControl(ButtonServiceNetStop);
                                 ButtonServiceNetStart.Visibility = Visibility.Hidden;
                             }));
                             break;
@@ -64,7 +74,7 @@ namespace Emse.Updater.Settings.WPF
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 LabelServiceStatusContent.Content = "Stopped";
-                                ButtonServiceNetStart.Visibility = Visibility.Visible;
+                                ShowControl(ButtonServiceNetStart);
                                 ButtonServiceNetStop.Visibility = Visibility.Hidden;
                             }));
                             break;
@@ -82,7 +92,7 @@ namespace Emse.Updater.Settings.WPF
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         ButtonUnRegisterService.Visibility = Visibility.Hidden;
-                        ButtonRegisterService.Visibility = Visibility.Visible;
+                        ShowControl(ButtonRegisterService);
                         LabelServiceStatusContent.Content = "Service Not Found!";
                         ButtonServiceNetStop.Visibility = Visibility.Hidden;
                         ButtonServiceNetStart.Visibility = Visibility.Hidden;
@@ -91,6 +101,14 @@ namespace Emse.Updater.Settings.WPF
                 Thread.Sleep(500);
             }
         }
+
+
+        private void ShowControl(Button btn)
+        {
+            //if(!ConsoleMode)
+                btn.Visibility = Visibility.Visible;
+        }
+
         public void FillFields()
         {
             SettingDto setting = Helper.JsonHelper.JsonReader();
@@ -117,7 +135,7 @@ namespace Emse.Updater.Settings.WPF
                 TextBoxTempPathText.Text = setting.TempPath;
                 TextBoxExeNameText.Text = setting.ExeName;
                 TextBoxFilesToKeep.Text = setting.FilesToKeep;
-                cbSoftClose.IsChecked = setting.SoftClose;
+                cbConsoleMode.IsChecked = setting.ConsoleMode;
             }));
         }
         private void ButtonKaydet_Click(object sender, RoutedEventArgs e)
@@ -149,7 +167,7 @@ namespace Emse.Updater.Settings.WPF
                     TempPath = TextBoxTempPathText.Text,
                     ExeName = TextBoxExeNameText.Text,
                     FilesToKeep = TextBoxFilesToKeep.Text,
-                    SoftClose = cbSoftClose.IsChecked != null ? cbSoftClose.IsChecked.Value : false,
+                    ConsoleMode = cbConsoleMode.IsChecked != null ? cbConsoleMode.IsChecked.Value : false,
 
                     UpdateStatus = true
 
@@ -276,7 +294,28 @@ namespace Emse.Updater.Settings.WPF
         private void ButtonNetStart_Click(object sender, RoutedEventArgs e)
         {
             string app = AppDomain.CurrentDomain.BaseDirectory + "Emse.Updater.Windows.Service.exe";
-            ProcessExtensions.StartProcessAsCurrentUser(app);
+
+            Process[] proc = Process.GetProcessesByName("Emse.Updater.Windows.Service");
+            if (proc.Length == 0)
+                ProcessExtensions.StartProcessAsCurrentUser(app);
+            else
+                MessageBox.Show("Process is running");
+
+        }
+
+        private void cbConsoleMode_Checked(object sender, RoutedEventArgs e)
+        {
+            tabConsoleMode.IsSelected = true;
+            buttonsConsoleMode.Visibility = Visibility.Visible;
+            buttonsServiceMode.Visibility = Visibility.Hidden;
+        }
+
+        private void cbConsoleMode_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tabServiceMode.IsSelected = true;
+
+            buttonsConsoleMode.Visibility = Visibility.Hidden;
+            buttonsServiceMode.Visibility = Visibility.Visible;
 
         }
     }

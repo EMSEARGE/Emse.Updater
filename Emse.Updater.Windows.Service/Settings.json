@@ -1,8 +1,8 @@
-﻿{  
+﻿{
   "SecondsBetweenLoop": 10,
   "CurrentVersion": "0.0.0.0",
-  "Domain": "http://emsevm.cloudapp.net:20005/qorchkiosk/version.txt",
-  "UrlZip": "http://emsevm.cloudapp.net:20005/qorchkiosk/{version}",
+  "Domain": "http://emsevm.cloudapp.net:20005/qorchmainpano/version.txt",
+  "UrlZip": "http://emsevm.cloudapp.net:20005/qorchmainpano/{version}",
   "FileExtension": "zip",
   "Path": "c:\\qorch",
   "TempPath": "c:\\qorch-temp",
@@ -11,5 +11,5 @@
   "AppName": null,
   "UpdateStatus": true,
   "FilesToKeep": "GoogleChromePortable.zip",
-  "SoftClose": true
+  "ConsoleMode": true
 }
