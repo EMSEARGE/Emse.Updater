@@ -132,13 +132,13 @@ namespace Emse.Updater.Windows.Service
                         Thread.Sleep(2000);
                         WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
                     }
-                    
+
                     if (!UpdateStatus)
                     {
                         Thread.Sleep(1000);
                         continue;
                     }
-                    
+
                     string realPath = Helper.PathHelper.GetRealPath();
 
                     setting = Helper.JsonHelper.JsonReader();
@@ -255,13 +255,19 @@ namespace Emse.Updater.Windows.Service
                         LogHelper.WriteLog(latestversionURL + " has been downloaded.");
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
                         LogHelper.WriteLog("File has been unzipped");
-                        Helper.ProcessHelper.CloseProcess();
-                        LogHelper.WriteLog(setting.ExeName + " Process closed.");
-
-                        Thread.Sleep(1000);
-                        Helper.ProcessHelper.KillProcess();
-                        LogHelper.WriteLog(setting.ExeName + " Process killed.");
-                        Thread.Sleep(5000);
+                        if (setting.SoftClose)
+                        {
+                            Helper.ProcessHelper.SoftClose(realPath, setting.ExeName);
+                            LogHelper.WriteLog(setting.ExeName + " soft closed.");
+                        }
+                        else
+                        {
+                            Helper.ProcessHelper.CloseProcess();
+                            Thread.Sleep(1000);
+                            Helper.ProcessHelper.KillProcess();
+                            LogHelper.WriteLog(setting.ExeName + " Process killed.");
+                            Thread.Sleep(3000);
+                        }
                         System.IO.Directory.CreateDirectory(realPath);
 
                         Helper.PathHelper.Empty(new DirectoryInfo(realPath), new List<DirectoryInfo>() { new DirectoryInfo(tempPath) }, SetFilesToKeep(setting));
