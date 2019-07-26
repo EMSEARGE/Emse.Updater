@@ -127,12 +127,12 @@ namespace Emse.Updater.Windows.Service
 
                 try
                 {
-                    if (RegistryHelper.GetValue(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA") == 1) //Set EnableLUA
-                    {
-                        RegistryHelper.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", 0);
-                        Thread.Sleep(2000);
-                        WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
-                    }
+                    //if (RegistryHelper.GetValue(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA") == 1) //Set EnableLUA
+                    //{
+                    //    RegistryHelper.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", 0);
+                    //    Thread.Sleep(2000);
+                    //    WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
+                    //}
 
                     if (!UpdateStatus)
                     {
@@ -252,14 +252,14 @@ namespace Emse.Updater.Windows.Service
                             continue;
                         }
 
-                        UserInterfaceHandler.StartUserInterfaceAsUser();
+                        //UserInterfaceHandler.StartUserInterfaceAsUser();
                         LoggerAdapter.Instance.Debug(latestversionURL + " has been downloaded.");
                         ZipFile.ExtractToDirectory(tempPathForZipWithRandom, tempForFilesWithRandom);
                         LoggerAdapter.Instance.Debug("File has been unzipped");
                         if (setting.ConsoleMode)
                         {
                             Helper.ProcessHelper.CloseProcess();
-                            Thread.Sleep(1000);
+                            Thread.Sleep(3000);
 
                             //Helper.ProcessHelper.SoftClose(realPath, setting.ExeName);
                             //LoggerAdapter.Instance.Debug(setting.ExeName + " soft closed.");
@@ -290,7 +290,7 @@ namespace Emse.Updater.Windows.Service
                             LoggerAdapter.Instance.Debug(tempPath + " has been deleted.");
                         }
 
-                        UserInterfaceHandler.StopUserInterface();
+                        //UserInterfaceHandler.StopUserInterface();
                         AppDir = realPath + "\\" + setting.ExeName + ".exe";
 
                         try

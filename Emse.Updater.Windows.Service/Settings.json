@@ -1,8 +1,8 @@
 ﻿{
   "SecondsBetweenLoop": 10,
-  "CurrentVersion": "0.0.0.0",
-  "Domain": "http://emsevm.cloudapp.net:20005/qorchmainpano/version.txt",
-  "UrlZip": "http://emsevm.cloudapp.net:20005/qorchmainpano/{version}",
+  "CurrentVersion": "0.0.0.11",
+  "Domain": "http://emsevm.cloudapp.net:20005/qorchpano/version.txt",
+  "UrlZip": "http://emsevm.cloudapp.net:20005/qorchpano/{version}",
   "FileExtension": "zip",
   "Path": "c:\\qorch",
   "TempPath": "c:\\qorch-temp",
@@ -10,6 +10,6 @@
   "ExeName": "Qorch.HardwareHost",
   "AppName": null,
   "UpdateStatus": true,
-  "FilesToKeep": "GoogleChromePortable.zip",
+  "FilesToKeep": "GoogleChromePortable.zip;settings.txt",
   "ConsoleMode": true
 }
