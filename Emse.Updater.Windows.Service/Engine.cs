@@ -175,7 +175,12 @@ namespace Emse.Updater.Windows.Service
                                 LoggerAdapter.Instance.Debug("Create Process As User failed: " + ex);
                             }
                         }
+                        else
+                            LoggerAdapter.Instance.Debug("exe file not found");
+
                     }
+                    else
+                        LoggerAdapter.Instance.Debug("process's already running");
 
                     LoggerAdapter.Instance.Debug("Version.txt will be read.");
                     Version latestVersion = Helper.VersionHelper.GetLatestVersion();
@@ -270,7 +275,7 @@ namespace Emse.Updater.Windows.Service
                             Thread.Sleep(1000);
                             Helper.ProcessHelper.KillProcess();
                             LoggerAdapter.Instance.Debug(setting.ExeName + " Process killed.");
-                            Thread.Sleep(3000);
+                            Thread.Sleep(5000);
                         }
                         System.IO.Directory.CreateDirectory(realPath);
 
