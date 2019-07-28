@@ -127,12 +127,12 @@ namespace Emse.Updater.Windows.Service
 
                 try
                 {
-                    if (RegistryHelper.GetValue(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA") == 1) //Set EnableLUA
-                    {
-                        RegistryHelper.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", 0);
-                        Thread.Sleep(2000);
-                        WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
-                    }
+                    //if (RegistryHelper.GetValue(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA") == 1) //Set EnableLUA
+                    //{
+                    //    RegistryHelper.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System", "EnableLUA", 0);
+                    //    Thread.Sleep(2000);
+                    //    WindowsHelper.ExitWindows(WindowsHelper.ExitWindowsType.ForceRestart, WindowsHelper.ShutdownReason.FlagPlanned, true);
+                    //}
 
                     if (!UpdateStatus)
                     {
