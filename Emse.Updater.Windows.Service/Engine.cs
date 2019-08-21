@@ -150,12 +150,12 @@ namespace Emse.Updater.Windows.Service
                     {
                         Process mainProcess = processOfEmse[0];
 
-                        if (!mainProcess.Responding)
-                        {
-                            LoggerAdapter.Instance.Debug(setting.ExeName + " not responding.");
-                            Helper.ProcessHelper.KillProcess();
-                            LoggerAdapter.Instance.Debug(setting.ExeName + " Process killed.");
-                        }
+                        //if (!mainProcess.Responding)
+                        //{
+                        //    LoggerAdapter.Instance.Debug(setting.ExeName + " not responding.");
+                        //    Helper.ProcessHelper.KillProcess();
+                        //    LoggerAdapter.Instance.Debug(setting.ExeName + " Process killed.");
+                        //}
                     }
 
                     if (processOfEmse.Length == 0)
