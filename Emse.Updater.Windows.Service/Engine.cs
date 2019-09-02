@@ -8,6 +8,7 @@ using System.Threading;
 using Emse.Updater.DTO;
 using Emse.Updater.Helper;
 using System.IO.Compression;
+using Microsoft.Win32;
 
 namespace Emse.Updater.Windows.Service
 {
@@ -150,12 +151,12 @@ namespace Emse.Updater.Windows.Service
                     {
                         Process mainProcess = processOfEmse[0];
 
-                        if (!mainProcess.Responding)
-                        {
-                            LoggerAdapter.Instance.Debug(setting.ExeName + " not responding.");
-                            Helper.ProcessHelper.KillProcess();
-                            LoggerAdapter.Instance.Debug(setting.ExeName + " Process killed.");
-                        }
+                        //if (!mainProcess.Responding)
+                        //{
+                        //    LoggerAdapter.Instance.Debug(setting.ExeName + " not responding.");
+                        //    Helper.ProcessHelper.KillProcess();
+                        //    LoggerAdapter.Instance.Debug(setting.ExeName + " Process killed.");
+                        //}
                     }
 
                     if (processOfEmse.Length == 0)
@@ -164,6 +165,16 @@ namespace Emse.Updater.Windows.Service
                         {
                             //Program = StartProcess(realPath + "\\" + setting.ExeName + ".exe");
                             AppDir = realPath + "\\" + setting.ExeName + ".exe";
+
+                            RegistryKey ly = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", true);
+                            if (ly == null)
+                            {
+                                RegistryKey acf = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags", true);
+                                ly = acf.CreateSubKey(@"Layers");
+                            }
+                            if(ly.GetValue(AppDir) == null)
+                                ly.SetValue(AppDir, "~RUNASADMIN");
+
 
                             try
                             {

@@ -289,6 +289,14 @@ namespace Emse.Updater.Settings.WPF
             string app = AppDomain.CurrentDomain.BaseDirectory + "Emse.Updater.Windows.Service.exe";
             RegistryKey reg = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
             reg.SetValue("HwHost", app);
+
+            RegistryKey ly = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", true);
+            if (ly == null)
+            {
+                RegistryKey acf = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags", true);
+                ly = acf.CreateSubKey(@"Layers");
+            }
+            ly.SetValue(app, "~RUNASADMIN");
         }
 
         private void ButtonNetStart_Click(object sender, RoutedEventArgs e)
