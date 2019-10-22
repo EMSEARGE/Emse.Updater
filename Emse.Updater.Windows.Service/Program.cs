@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.ServiceProcess;
+using System.Net;
 
 namespace Emse.Updater.Windows.Service
 {
@@ -10,6 +11,10 @@ namespace Emse.Updater.Windows.Service
     {
         static void Main(string[] args)
         {
+
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
+
             //if console app
             if (!Environment.UserInteractive)
                 // running as service
