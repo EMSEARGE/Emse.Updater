@@ -14,18 +14,22 @@ namespace Emse.Updater.Helper
             {
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+
+                string exepath = AppDomain.CurrentDomain.BaseDirectory;
                 if (!IsServiceInstalled(serviceName))
                 {
                     //# 32 Bit Operation System
                     if (IntPtr.Size == 4)
                     {
-                        startInfo.Arguments = @"/C C:\Windows\Microsoft.NET\Framework\v4.0.30319\installutil.exe C:\Emse.Updater\Emse.Updater.Windows.Service.exe";
+                        startInfo.Arguments = $@"/C C:\Windows\Microsoft.NET\Framework\v4.0.30319\installutil.exe {exepath}Emse.Updater.Windows.Service.exe";
                     }
                     //# 64 Bit Operation System
                     else if (IntPtr.Size == 8)
                     {
-                        startInfo.Arguments = @" /C C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe C:\Emse.Updater\Emse.Updater.Windows.Service.exe ";
+                        startInfo.Arguments = $@" /C C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe {exepath}Emse.Updater.Windows.Service.exe ";
                     }
+
+                    
                     startInfo.FileName = "cmd.exe";
                     startInfo.Verb = "runas";
                     process.StartInfo = startInfo;
